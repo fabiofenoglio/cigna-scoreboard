@@ -21,9 +21,9 @@ typedef t_config * t_configInstance;
 
 /* Prototipi ================================================================ */
 
-void  config_new     (t_configInstance instance);
-void  config_save    (t_configInstance instance);
-int8  config_load    (t_configInstance instance);
+void    config_new     (t_configInstance instance);
+void    config_save    (t_configInstance instance);
+t_bool  config_load    (t_configInstance instance);
 
 /* Implementazioni ========================================================== */
 
@@ -38,11 +38,11 @@ void config_save(t_configInstance instance)
     emu_eeprom_wr(___CONFIG_CELL_VALID_DATA, ___CONFIG_VALID_CODE, EMU_EEPROM_COMMIT);
 }
 
-short config_load(t_configInstance instance)
+t_bool config_load(t_configInstance instance)
 {
-    if (emu_eeprom_rd(___CONFIG_CELL_VALID_DATA) != ___CONFIG_VALID_CODE) return 0;
+    if (emu_eeprom_rd(___CONFIG_CELL_VALID_DATA) != ___CONFIG_VALID_CODE) return FALSE;
     instance -> persistentFlags0 = emu_eeprom_rd(___CONFIG_CELL_D0);
-    return 1;
+    return TRUE;
 }
 
 #endif

@@ -6,7 +6,7 @@ Value=-1
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=tab rx 1.c
+Value=config.h
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -24,9 +24,10 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
+Count=3
 File0=common_pic18.h
 File1=tab rx 1.c
+File2=config.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

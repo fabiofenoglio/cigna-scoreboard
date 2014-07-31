@@ -1141,7 +1141,7 @@ typedef t_config * t_configInstance;
 
 void config_new (t_configInstance instance);
 void config_save (t_configInstance instance);
-int8 config_load (t_configInstance instance);
+t_bool config_load (t_configInstance instance);
 
 
 
@@ -1156,11 +1156,11 @@ void config_save(t_configInstance instance)
  emu_eeprom_wr( 0x0000 ,  18 ,  1 );
 }
 
-short config_load(t_configInstance instance)
+t_bool config_load(t_configInstance instance)
 {
- if (emu_eeprom_rd( 0x0000 ) !=  18 ) return 0;
+ if (emu_eeprom_rd( 0x0000 ) !=  18 ) return FALSE;
  instance -> persistentFlags0 = emu_eeprom_rd( 0x0010 );
- return 1;
+ return TRUE;
 }
 #line 1 "d:/git/cigna-scoreboard/rx/source/flags.h"
 
