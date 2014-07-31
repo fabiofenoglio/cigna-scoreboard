@@ -59,64 +59,64 @@
 
 /* Tipi di dato ============================================================= */
 
-typedef uint8 TCmd;
-typedef TChangedFlags CmdFunctionType;
-typedef CmdFunctionType(*CmdFunctionPointer)();
+typedef uint8 t_cmd;
+typedef t_changed_flags t_cmdfnc;
+typedef t_cmdfnc(*t_cmdfnc_ptr)();
 
 /* Prototipi ================================================================ */
 
-CmdFunctionType ApplyCmd(TCmd cmd);
+t_cmdfnc ApplyCmd(t_cmd cmd);
 
-CmdFunctionType CmdApply_None               ();
-CmdFunctionType CmdApply_INC_PT_LOC         ();
-CmdFunctionType CmdApply_INC_PLLP_LOC       ();
-CmdFunctionType CmdApply_DEC_PT_LOC         ();
-CmdFunctionType CmdApply_DEC_PLLP_LOC       ();
-CmdFunctionType CmdApply_INC_PT_OSP         ();
-CmdFunctionType CmdApply_INC_PLLP_OSP       ();
-CmdFunctionType CmdApply_DEC_PT_OSP         ();
-CmdFunctionType CmdApply_DEC_PLLP_OSP       ();
-CmdFunctionType CmdApply_INC_SET_LOC        ();
-CmdFunctionType CmdApply_DEC_SET_LOC        ();
-CmdFunctionType CmdApply_INC_SET_OSP        ();
-CmdFunctionType CmdApply_DEC_SET_OSP        ();
-CmdFunctionType CmdApply_INC_LED_LOC        ();
-CmdFunctionType CmdApply_DEC_LED_LOC        ();
-CmdFunctionType CmdApply_INC_LED_OSP        ();
-CmdFunctionType CmdApply_DEC_LED_OSP        ();
-CmdFunctionType CmdApply_START              ();
-CmdFunctionType CmdApply_DEBUG_MODE         ();
-CmdFunctionType CmdApply_PAUSE              ();
-CmdFunctionType CmdApply_STANDBY_TELC       ();
-CmdFunctionType CmdApply_TIME_RESET         ();
-CmdFunctionType CmdApply_CHANNEL_TEST       ();
-CmdFunctionType CmdApply_TIME_SET           ();
-CmdFunctionType CmdApply_CLAXON_ALT         ();
-CmdFunctionType CmdApply_RES_PT_LOC         ();
-CmdFunctionType CmdApply_RESET              ();
-CmdFunctionType CmdApply_RES_PT_OSP         ();
-CmdFunctionType CmdApply_HARD_RESET         ();
-CmdFunctionType CmdApply_STANDBY            ();
-CmdFunctionType CmdApply_SALVASCHERMO       ();
-CmdFunctionType CmdApply_INVERTI            ();
-CmdFunctionType CmdApply_CLAXON             ();
-CmdFunctionType CmdApply_PROVA_CLAXON       ();
-CmdFunctionType CmdApply_AUM_10M            ();
-CmdFunctionType CmdApply_DIM_10M            ();
-CmdFunctionType CmdApply_AUM_1M             ();
-CmdFunctionType CmdApply_DIM_1M             ();
-CmdFunctionType CmdApply_AUM_10S            ();
-CmdFunctionType CmdApply_DIM_10S            ();
-CmdFunctionType CmdApply_AUM_1S             ();
-CmdFunctionType CmdApply_DIM_1S             ();
-CmdFunctionType CmdApply_7F_LOC             ();
-CmdFunctionType CmdApply_7F_OSP             ();
-CmdFunctionType CmdApply_P1_LOC             ();
-CmdFunctionType CmdApply_P1_OSP             ();
-CmdFunctionType CmdApply_P2_LOC             ();
-CmdFunctionType CmdApply_P2_OSP             ();
+t_cmdfnc CmdApply_None               ();
+t_cmdfnc CmdApply_INC_PT_LOC         ();
+t_cmdfnc CmdApply_INC_PLLP_LOC       ();
+t_cmdfnc CmdApply_DEC_PT_LOC         ();
+t_cmdfnc CmdApply_DEC_PLLP_LOC       ();
+t_cmdfnc CmdApply_INC_PT_OSP         ();
+t_cmdfnc CmdApply_INC_PLLP_OSP       ();
+t_cmdfnc CmdApply_DEC_PT_OSP         ();
+t_cmdfnc CmdApply_DEC_PLLP_OSP       ();
+t_cmdfnc CmdApply_INC_SET_LOC        ();
+t_cmdfnc CmdApply_DEC_SET_LOC        ();
+t_cmdfnc CmdApply_INC_SET_OSP        ();
+t_cmdfnc CmdApply_DEC_SET_OSP        ();
+t_cmdfnc CmdApply_INC_LED_LOC        ();
+t_cmdfnc CmdApply_DEC_LED_LOC        ();
+t_cmdfnc CmdApply_INC_LED_OSP        ();
+t_cmdfnc CmdApply_DEC_LED_OSP        ();
+t_cmdfnc CmdApply_START              ();
+t_cmdfnc CmdApply_DEBUG_MODE         ();
+t_cmdfnc CmdApply_PAUSE              ();
+t_cmdfnc CmdApply_STANDBY_TELC       ();
+t_cmdfnc CmdApply_TIME_RESET         ();
+t_cmdfnc CmdApply_CHANNEL_TEST       ();
+t_cmdfnc CmdApply_TIME_SET           ();
+t_cmdfnc CmdApply_CLAXON_ALT         ();
+t_cmdfnc CmdApply_RES_PT_LOC         ();
+t_cmdfnc CmdApply_RESET              ();
+t_cmdfnc CmdApply_RES_PT_OSP         ();
+t_cmdfnc CmdApply_HARD_RESET         ();
+t_cmdfnc CmdApply_STANDBY            ();
+t_cmdfnc CmdApply_SALVASCHERMO       ();
+t_cmdfnc CmdApply_INVERTI            ();
+t_cmdfnc CmdApply_CLAXON             ();
+t_cmdfnc CmdApply_PROVA_CLAXON       ();
+t_cmdfnc CmdApply_AUM_10M            ();
+t_cmdfnc CmdApply_DIM_10M            ();
+t_cmdfnc CmdApply_AUM_1M             ();
+t_cmdfnc CmdApply_DIM_1M             ();
+t_cmdfnc CmdApply_AUM_10S            ();
+t_cmdfnc CmdApply_DIM_10S            ();
+t_cmdfnc CmdApply_AUM_1S             ();
+t_cmdfnc CmdApply_DIM_1S             ();
+t_cmdfnc CmdApply_7F_LOC             ();
+t_cmdfnc CmdApply_7F_OSP             ();
+t_cmdfnc CmdApply_P1_LOC             ();
+t_cmdfnc CmdApply_P1_OSP             ();
+t_cmdfnc CmdApply_P2_LOC             ();
+t_cmdfnc CmdApply_P2_OSP             ();
 
-CmdFunctionPointer ___datamgr_function_array[] =
+t_cmdfnc_ptr ___datamgr_function_array[] =
 {
     /*  0 */ CmdApply_None,
     /*  1 */ CmdApply_None,

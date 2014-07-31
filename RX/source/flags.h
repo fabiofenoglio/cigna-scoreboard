@@ -3,7 +3,7 @@
 
 /* Tipi di dato ============================================================= */
 
-typedef struct TFlags_struct
+typedef struct t_flags_struct
 {
     uint8 flags0;
 
@@ -14,13 +14,13 @@ typedef struct TFlags_struct
     #define EEPROMSavePending         flags0.B5
     #define timedRoutinePending       flags0.B6
 
-} TFlags;
+} t_flags;
 
-typedef TFlags * TFlagsInstance;
+typedef t_flags * t_flagsInstance;
 
 /* Costanti ================================================================= */
 
-typedef enum TChangedFlags_enum
+typedef enum t_changed_flags_enum
 {
     tcfNone          = 0,
     tcfLocals        = 1,
@@ -28,9 +28,9 @@ typedef enum TChangedFlags_enum
     tcfTime          = 4,
     tcfAll           = 7
 
-} TChangedFlags;
+} t_changed_flags;
 
-typedef enum TAction_enum
+typedef enum t_action_enum
 {
     taNone         = 0,
     taNotifyClaxon = 1,
@@ -38,15 +38,15 @@ typedef enum TAction_enum
     taTimeEnded    = 4,
     taClear        = 8
 
-} TAction;
+} t_action;
 
 /* Prototipi ================================================================ */
 
-void flags_new(TFlagsInstance instance);
+void flags_new(t_flagsInstance instance);
 
 /* Implementazioni ========================================================== */
 
-void flags_new(TFlagsInstance instance)
+void flags_new(t_flagsInstance instance)
 {
     instance -> flags0 = 0;
 }

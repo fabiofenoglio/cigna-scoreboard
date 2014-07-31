@@ -9,39 +9,40 @@
 
 /* Tipi di dato ============================================================= */
 
-typedef struct TConfig_struct
+typedef struct t_config_struct
 {
     uint8 persistentFlags0;
 
     #define UseClaxon      persistentFlags0.B0
 
-} TConfig;
+} t_config;
 
-typedef TConfig * TConfigInstance;
+typedef t_config * t_configInstance;
 
 /* Prototipi ================================================================ */
 
-void  config_new     (TConfigInstance instance);
-void  config_save    (TConfigInstance instance);
-int8  config_load    (TConfigInstance instance);
+void  config_new     (t_configInstance instance);
+void  config_save    (t_configInstance instance);
+int8  config_load    (t_configInstance instance);
 
 /* Implementazioni ========================================================== */
 
-void config_new(TConfigInstance instance)
+void config_new(t_configInstance instance)
 {
     instance -> persistentFlags0 = 0;
 }
 
-void config_save(TConfigInstance instance)
+void config_save(t_configInstance instance)
 {
     emu_eeprom_wr(___CONFIG_CELL_D0, instance -> persistentFlags0, EMU_EEPROM_DO_NOT_COMMIT);
     emu_eeprom_wr(___CONFIG_CELL_VALID_DATA, ___CONFIG_VALID_CODE, EMU_EEPROM_COMMIT);
 }
 
-short config_load(TConfigInstance instance)
+short config_load(t_configInstance instance)
 {
     if (emu_eeprom_rd(___CONFIG_CELL_VALID_DATA) != ___CONFIG_VALID_CODE) return 0;
     instance -> persistentFlags0 = emu_eeprom_rd(___CONFIG_CELL_D0);
+    return 1;
 }
 
 #endif

@@ -12,23 +12,23 @@ const uint8 NRF_PACKET_NUM_ID_BYTES =   CFG_NUM_ID_BYTES;
 
 /* Tipi di dato ============================================================= */
 
-typedef struct TNrfPacket_Struct
+typedef struct t_nrf_packet_Struct
 {
     uint8      raw_cmd_bytes[NRF_PACKET_NUM_CMD_BYTES];
-    TCmd       cmd;
+    t_cmd      cmd;
     uint8      id_bytes[NRF_PACKET_NUM_ID_BYTES];
     
-} TNrfPacket;
+} t_nrf_packet;
 
 /* Prototipi ================================================================ */
 
-void    nrfpacket_from_raw_buffer  (TNrfPacket* instance, uint8* buffer);
-uint8   nrfpacket_compare_id       (TNrfPacket* instance, uint8* id);
-void    nrfpacket_copy_id          (TNrfPacket* instance, uint8* dest_id);
+void    nrfpacket_from_raw_buffer  (t_nrf_packet* instance, uint8* buffer);
+uint8   nrfpacket_compare_id       (t_nrf_packet* instance, uint8* id);
+void    nrfpacket_copy_id          (t_nrf_packet* instance, uint8* dest_id);
 
 /* Implementazioni ========================================================== */
 
-void nrfpacket_from_raw_buffer(TNrfPacket* instance, uint8* buffer)
+void nrfpacket_from_raw_buffer(t_nrf_packet* instance, uint8* buffer)
 {
     // copy raw data
     memcpy(&(instance -> id_bytes), buffer, NRF_PACKET_NUM_ID_BYTES);
@@ -48,7 +48,7 @@ void nrfpacket_from_raw_buffer(TNrfPacket* instance, uint8* buffer)
         instance -> cmd = CmdCode_None;
 }
 
-uint8 nrfpacket_compare_id(TNrfPacket* instance, uint8* compare_id)
+uint8 nrfpacket_compare_id(t_nrf_packet* instance, uint8* compare_id)
 {
     uint8 i;
     for (i = 0; i < NRF_PACKET_NUM_ID_BYTES; i ++)
@@ -58,7 +58,7 @@ uint8 nrfpacket_compare_id(TNrfPacket* instance, uint8* compare_id)
     return 1;
 }
 
-void nrfpacket_copy_id(TNrfPacket* instance, uint8* dest_id)
+void nrfpacket_copy_id(t_nrf_packet* instance, uint8* dest_id)
 {
     uint8 i;
     for (i = 0; i < NRF_PACKET_NUM_ID_BYTES; i ++)

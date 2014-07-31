@@ -3,20 +3,20 @@
 
 /* Variabili ================================================================ */
 
-TConfig      configuration;
-TFlags       flags;
-TTabData     tab_data;
+t_config        configuration;
+t_flags         flags;
+t_tab_data      tab_data;
 
-TResetReason      whyRestarted;
+t_reset_reason  whyRestarted;
 
-TChangedFlags     whatsChanged;
-TAction           pendingActions;
-uint8             ClockTicksPending;
-TCmd              CmdPending;
-TNrfPacket        packet;
-uint8             packet_last_id_bytes[CFG_NUM_ID_BYTES];
+t_changed_flags whatsChanged;
+t_action        pendingActions;
+uint8           ClockTicksPending;
+t_cmd           CmdPending;
+t_nrf_packet    packet;
+uint8           packet_last_id_bytes[CFG_NUM_ID_BYTES];
 
-uint16            SyncedDelayCounter;
+uint16          SyncedDelayCounter;
 
 /* Prototipi ================================================================ */
 

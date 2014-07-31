@@ -98,7 +98,7 @@ void tab_display_msg       (char* string, uint8 num);
 void tab_refresh_locals    ();
 void tab_refresh_guests    ();
 void tab_refresh_time      ();
-void ___tab_refresh_teamdata(TTeamData* instance);
+void ___tab_refresh_teamdata(t_teamdata* instance);
 
 /* Implementazioni ========================================================== */
 
@@ -228,7 +228,7 @@ void tab_refresh_time()
     tab_strobe_time();
 }
 
-void ___tab_refresh_teamdata(TTeamData* instance)
+void ___tab_refresh_teamdata(t_teamdata* instance)
 {
     uint8 refr_dato;
     char txt4[4];

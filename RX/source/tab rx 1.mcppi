@@ -24,19 +24,9 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=12
-File0=flags.h
-File1=config.h
-File2=dataInstances.h
-File3=hardware.h
-File4=innerADT.h
-File5=dataMgrRoutines.h
-File6=header.h
-File7=f_nrf24l01p.h
-File8=nrf_cfg.h
-File9=debug.h
-File10=radioADT.h
-File11=tab rx 1.c
+Count=2
+File0=common_pic18.h
+File1=tab rx 1.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -46,14 +36,14 @@ Count=1
 File0=da portare.txt
 [SEARCH_PATH]
 Count=3
-Path0=C:\Program Files (x86)\Mikroelektronika\mikroC PRO for PIC\defs\
+Path0=C:\Program Files (x86)\Mikroelektronika\mikroC PRO for PIC\Defs\
 Path1=C:\Program Files (x86)\Mikroelektronika\mikroC PRO for PIC\uses\P18\
-Path2=D:\Cloud\Dropbox\d\tabellone strickes back\source\Ricevitore\
+Path2=D:\Git\cigna-scoreboard\RX\source\
 [HEADER_PATH]
 Count=1
-Path0=D:\Cloud\Dropbox\d\tabellone strickes back\source\Ricevitore\
+Path0=D:\Git\cigna-scoreboard\RX\source\
 [HEADERS]
-Count=15
+Count=16
 File0=hardware.h
 File1=header.h
 File2=tabInterface.h
@@ -69,6 +59,7 @@ File11=f_nrf24l01p.h
 File12=debug.h
 File13=nrf_cfg.h
 File14=radioADT.h
+File15=common_pic18.h
 [PLDS]
 Count=0
 [Useses]
@@ -84,5 +75,6 @@ File7=SPI
 [EXPANDED NODES]
 Node1=Sources
 Node2=Header Files
-Node3=Other Files
-Count=3
+Node3=Output Files
+Node4=Other Files
+Count=4

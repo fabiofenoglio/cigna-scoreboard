@@ -13,14 +13,14 @@ const int16 TEAMS_MAX_TIME =   (99*60);
 
 /* Tipi di dato ============================================================= */
 
-typedef struct TTimeSpanStruct
+typedef struct t_timespanStruct
 {
     uint8 min;
     uint8 sec;
     
-} TTimeSpan;
+} t_timespan;
 
-typedef struct TTeamDataStruct
+typedef struct t_teamdataStruct
 {
     uint8 points;
     uint8 sets;
@@ -31,129 +31,129 @@ typedef struct TTeamDataStruct
     #define P1 flags.B1
     #define P2 flags.B2
     
-} TTeamData;
+} t_teamdata;
 
-typedef enum TLightFlags
+typedef enum t_lightflags
 {
     lfP7F = 1,
     lfP1  = 2,
     lfP2  = 4
 
-} TLightFlags;
+} t_lightflags;
 
-typedef struct TTabData_struct
+typedef struct t_tab_data_struct
 {
-    TTeamData locals;
-    TTeamData guests;
-    TTimeSpan time;
+    t_teamdata locals;
+    t_teamdata guests;
+    t_timespan time;
 
-} TTabData;
+} t_tab_data;
 
 /* Prototipi ================================================================ */
 
-void    tabdata_new              (TTabData* instance);
+void    tabdata_new              (t_tab_data* instance);
 #define tabdata_clear(instance)  tabdata_new(instance);
 
-void    tabdata_clear_time       (TTabData* instance);
-void    tabdata_clear_team       (TTeamData* instance);
+void    tabdata_clear_time       (t_tab_data* instance);
+void    tabdata_clear_team       (t_teamdata* instance);
 
-void    tabdata_add_sec          (TTimeSpan* instance, int8 toAdd);
-void    tabdata_add_min          (TTimeSpan* instance, int8 toAdd);
-short   tabdata_time_is_not_null (TTimeSpan* instance);
+void    tabdata_add_sec          (t_timespan* instance, int8 toAdd);
+void    tabdata_add_min          (t_timespan* instance, int8 toAdd);
+short   tabdata_time_is_not_null (t_timespan* instance);
 
-void    tabdata_add_points       (TTeamData* instance, int8 toAdd);
-void    tabdata_add_sets         (TTeamData* instance, int8 toAdd);
-void    tabdata_toggle_flag      (TTeamData* instance, TLightFlags flag);
-void    tabdata_add_pp           (TTeamData* instance);
-void    tabdata_sub_pp           (TTeamData* instance);
-void    tabdata_add_flag_seq     (TTeamData* instance);
-void    tabdata_sub_flag_seq     (TTeamData* instance);
-void    tabdata_swap             (TTabData* instance);
+void    tabdata_add_points       (t_teamdata* instance, int8 toAdd);
+void    tabdata_add_sets         (t_teamdata* instance, int8 toAdd);
+void    tabdata_toggle_flag      (t_teamdata* instance, t_lightflags flag);
+void    tabdata_add_pp           (t_teamdata* instance);
+void    tabdata_sub_pp           (t_teamdata* instance);
+void    tabdata_add_flag_seq     (t_teamdata* instance);
+void    tabdata_sub_flag_seq     (t_teamdata* instance);
+void    tabdata_swap             (t_tab_data* instance);
 
 /* Implementazioni ========================================================== */
 
-void tabdata_new(TTabData* instance)
+void tabdata_new(t_tab_data* instance)
 {
     tabdata_clear_time(instance);
     tabdata_clear_team(&(instance -> locals));
     tabdata_clear_team(&(instance -> guests));
 }
 
-void tabdata_clear_time(TTabData* instance)
+void tabdata_clear_time(t_tab_data* instance)
 {
     instance -> time.min = 0;
     instance -> time.sec = 0;
 }
 
-void tabdata_clear_team(TTeamData* instance)
+void tabdata_clear_team(t_teamdata* instance)
 {
     instance -> points = 0;
     instance -> sets = 0;
     instance -> flags = 0;
 }
 
-void tabdata_add_sec(TTimeSpan* instance, int8 toAdd)
+void tabdata_add_sec(t_timespan* instance, int8 toAdd)
 {
-    int16 acTTimeSpan;
-    acTTimeSpan = (int16)(instance -> min) * 60 + (int16)(instance -> sec);
+    int16 act_timespan;
+    act_timespan = (int16)(instance -> min) * 60 + (int16)(instance -> sec);
     
     if (toAdd > 0)
     {
-        if (acTTimeSpan == TEAMS_MAX_TIME) acTTimeSpan = 0;
+        if (act_timespan == TEAMS_MAX_TIME) act_timespan = 0;
         else
         {
-            acTTimeSpan += toAdd;
-            if (acTTimeSpan > TEAMS_MAX_TIME) acTTimeSpan = TEAMS_MAX_TIME;
+            act_timespan += toAdd;
+            if (act_timespan > TEAMS_MAX_TIME) act_timespan = TEAMS_MAX_TIME;
         }
     }
     else
     {
-        if (acTTimeSpan == 0) acTTimeSpan = TEAMS_MAX_TIME;
+        if (act_timespan == 0) act_timespan = TEAMS_MAX_TIME;
         else
         {
-            acTTimeSpan += toAdd;
-            if (acTTimeSpan < 0) acTTimeSpan = 0;
+            act_timespan += toAdd;
+            if (act_timespan < 0) act_timespan = 0;
         }
     }
     
-    instance -> min = acTTimeSpan / 60;
-    instance -> sec = acTTimeSpan % 60;
+    instance -> min = act_timespan / 60;
+    instance -> sec = act_timespan % 60;
 }
 
-void tabdata_add_min(TTimeSpan* instance, int8 toAdd)
+void tabdata_add_min(t_timespan* instance, int8 toAdd)
 {
-    int16 acTTimeSpan;
-    acTTimeSpan = (int16)(instance -> min) * 60 + (int16)(instance -> sec);
+    int16 act_timespan;
+    act_timespan = (int16)(instance -> min) * 60 + (int16)(instance -> sec);
     
     if (toAdd > 0)
     {
-        if (acTTimeSpan == TEAMS_MAX_TIME) acTTimeSpan = 0;
+        if (act_timespan == TEAMS_MAX_TIME) act_timespan = 0;
         else
         {
-            acTTimeSpan += toAdd * 60;
-            if (acTTimeSpan > TEAMS_MAX_TIME) acTTimeSpan = TEAMS_MAX_TIME;
+            act_timespan += toAdd * 60;
+            if (act_timespan > TEAMS_MAX_TIME) act_timespan = TEAMS_MAX_TIME;
         }
     }
     else
     {
-        if (acTTimeSpan == 0) acTTimeSpan = TEAMS_MAX_TIME;
+        if (act_timespan == 0) act_timespan = TEAMS_MAX_TIME;
         else
         {
-            acTTimeSpan += toAdd * 60;
-            if (acTTimeSpan < 0) acTTimeSpan = 0;
+            act_timespan += toAdd * 60;
+            if (act_timespan < 0) act_timespan = 0;
         }
     }
 
-    instance -> min = acTTimeSpan / 60;
-    instance -> sec = acTTimeSpan % 60;
+    instance -> min = act_timespan / 60;
+    instance -> sec = act_timespan % 60;
 }
 
-int8 tabdata_time_is_not_null(TTimeSpan* instance)
+int8 tabdata_time_is_not_null(t_timespan* instance)
 {
     return ((instance -> min > 0) || (instance -> sec > 0));
 }
 
-void tabdata_add_points(TTeamData* instance, int8 toAdd)
+void tabdata_add_points(t_teamdata* instance, int8 toAdd)
 {
     int16 newPoints = (int16)(instance -> points);
     
@@ -179,7 +179,7 @@ void tabdata_add_points(TTeamData* instance, int8 toAdd)
     instance -> points = Lo(newPoints);
 }
 
-void tabdata_add_sets(TTeamData* instance, int8 toAdd)
+void tabdata_add_sets(t_teamdata* instance, int8 toAdd)
 {
     int16 newSets = (int16)(instance -> sets);
 
@@ -205,15 +205,15 @@ void tabdata_add_sets(TTeamData* instance, int8 toAdd)
     instance -> sets = Lo(newSets);
 }
 
-void tabdata_toggle_flag(TTeamData* instance, TLightFlags flag)
+void tabdata_toggle_flag(t_teamdata* instance, t_lightflags flag)
 {
     if (instance -> flags & flag) instance -> flags -= flag;
     else instance -> flags |= flag;
 }
 
-void tabdata_swap(TTabData* instance)
+void tabdata_swap(t_tab_data* instance)
 {
-    TTeamData swapInst;
+    t_teamdata swapInst;
     swapInst.points = instance -> locals -> points;
     swapInst.sets = instance -> locals -> sets;
     swapInst.flags = instance -> locals -> flags;
@@ -227,9 +227,9 @@ void tabdata_swap(TTabData* instance)
     instance -> guests.flags = swapInst.flags;
 }
 
-void tabdata_add_pp(TTeamData* instance)
+void tabdata_add_pp(t_teamdata* instance)
 {
-    if      (instance -> points < 15)
+    if (instance -> points < 15)
         instance -> points = 15;
     else if (instance -> points < 30)
         instance -> points = 30;
@@ -242,9 +242,9 @@ void tabdata_add_pp(TTeamData* instance)
     }
 }
 
-void tabdata_sub_pp(TTeamData* instance)
+void tabdata_sub_pp(t_teamdata* instance)
 {
-    if      (instance -> points == 0)
+    if (instance -> points == 0)
     {
         tabdata_add_sets(instance, -1);
         instance -> points = 40;
@@ -259,7 +259,7 @@ void tabdata_sub_pp(TTeamData* instance)
         instance -> points = 30;
 }
 
-void tabdata_add_flag_seq(TTeamData* instance)
+void tabdata_add_flag_seq(t_teamdata* instance)
 {
     if (instance -> P2)
     {
@@ -272,7 +272,7 @@ void tabdata_add_flag_seq(TTeamData* instance)
     else instance -> P7F = 1;
 }
 
-void tabdata_sub_flag_seq(TTeamData* instance)
+void tabdata_sub_flag_seq(t_teamdata* instance)
 {
     if (instance -> P2) instance -> P2 = 0;
     else if (instance -> P1) instance -> P1 = 0;

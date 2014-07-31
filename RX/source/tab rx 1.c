@@ -3,8 +3,8 @@
 void init();
 uint8 main_nrf_init();
 
-void ProcessRxCmd(TCmd * cmd);
-void ProcessPendingActions(TAction * actions);
+void ProcessRxCmd(t_cmd * cmd);
+void ProcessPendingActions(t_action * actions);
 void ProcessPendingTicks(uint8 * ticks);
 void SyncedDelay(uint16 ms);
 void TriggerAlarm(uint16 time);
@@ -91,7 +91,7 @@ void ProcessDisplay()
 
 void ProcessDisplayOn()
 {
-    TChangedFlags localChanged;
+    t_changed_flags localChanged;
 
     localChanged = whatsChanged;
     whatsChanged = 0;
@@ -129,9 +129,9 @@ void ProcessDisplayStandby()
     else cnt ++;
 }
 
-void ProcessRxCmd(TCmd * cmd)
+void ProcessRxCmd(t_cmd * cmd)
 {
-    uint8 localCmd;
+    t_cmd localCmd;
     
     #if DEBUG
     debug_sprinti_1("ProcessRxCmd %i", (int16)(*cmd));
@@ -175,9 +175,9 @@ void ProcessPendingTicks(uint8 * ticks)
     }
 }
 
-void ProcessPendingActions(TAction * actions)
+void ProcessPendingActions(t_action * actions)
 {
-    TAction localActions;
+    t_action localActions;
     int8 i8;
     char txt5[5];
     

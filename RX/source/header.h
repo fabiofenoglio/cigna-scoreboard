@@ -7,6 +7,7 @@
 
 #include "debug.h"
 
+#include "common_pic18.h"             // Configurazione comune alla serie 18F
 #include "hardware.h"                 // Configurazione hardware
 #include "nrf_cfg.h"                  // configurazione del modulo radio NRF24L01P
 #include "f_nrf24l01p.h"              // libreria di gestione del modulo radio NRF24L01P

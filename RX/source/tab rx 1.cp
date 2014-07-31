@@ -1,6 +1,6 @@
-#line 1 "D:/Cloud/Dropbox/d/tabellone strickes back/source/Ricevitore/tab rx 1.c"
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/header.h"
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/debug.h"
+#line 1 "D:/Git/cigna-scoreboard/RX/source/tab rx 1.c"
+#line 1 "d:/git/cigna-scoreboard/rx/source/header.h"
+#line 1 "d:/git/cigna-scoreboard/rx/source/debug.h"
 
 
 
@@ -31,8 +31,9 @@
  }
 
  char ___debug_line[128];
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/hardware.h"
-#line 18 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/hardware.h"
+#line 1 "d:/git/cigna-scoreboard/rx/source/common_pic18.h"
+#line 1 "c:/program files (x86)/mikroelektronika/mikroc pro for pic/include/built_in.h"
+#line 20 "d:/git/cigna-scoreboard/rx/source/common_pic18.h"
 typedef unsigned short uint8;
 typedef signed short int8;
 typedef unsigned int uint16;
@@ -41,6 +42,24 @@ typedef unsigned long uint32;
 typedef signed long int32;
 typedef unsigned long long uint64;
 typedef signed long long int64;
+
+typedef enum t_bool_enum
+{
+ FALSE = 0,
+ TRUE = 1
+}
+t_bool;
+
+typedef enum t_operation_enum
+{
+ ERROR = 0,
+ SUCCESS = 1
+}
+t_operation;
+#line 1 "d:/git/cigna-scoreboard/rx/source/hardware.h"
+
+
+
 
 
 
@@ -70,7 +89,7 @@ sbit PIN_DBG_0 at LATA0_Bit;
 sbit PIN_DBG_0_Dir at TRISA0_Bit;
 
 
-typedef enum TResetReason_enum
+typedef enum t_reset_reason_enum
 {
  NormalReset,
  SelfReset,
@@ -78,14 +97,14 @@ typedef enum TResetReason_enum
  PowerDownReset,
  BrownOutReset
 
-} TResetReason;
+} t_reset_reason;
 
 
 
 void hw_init();
 void hw_int_enable();
 void hw_int_disable();
-TResetReason hw_get_reset_reason();
+t_reset_reason hw_get_reset_reason();
 
 
 
@@ -151,7 +170,7 @@ void hw_int_disable()
  INTCON.GIEL = 0;
 }
 
-TResetReason hw_get_reset_reason()
+t_reset_reason hw_get_reset_reason()
 {
  if (! RCON.TO_) return WDTReset;
  if (! RCON.PD) return PowerDownReset;
@@ -171,10 +190,10 @@ TResetReason hw_get_reset_reason()
  if (! RCON.POR) RCON.POR = 1;
  return NormalReset;
 }
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/nrf_cfg.h"
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/f_nrf24l01p.h"
+#line 1 "d:/git/cigna-scoreboard/rx/source/nrf_cfg.h"
+#line 1 "d:/git/cigna-scoreboard/rx/source/f_nrf24l01p.h"
 #line 1 "c:/program files (x86)/mikroelektronika/mikroc pro for pic/include/built_in.h"
-#line 8 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/f_nrf24l01p.h"
+#line 8 "d:/git/cigna-scoreboard/rx/source/f_nrf24l01p.h"
 extern sbit NRF_CE;
 extern sbit NRF_CE_DIR;
 extern sbit NRF_CSN;
@@ -202,7 +221,7 @@ typedef struct
  uint8 rx_empty;
 
 } nrf_fifo_status;
-#line 139 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/f_nrf24l01p.h"
+#line 139 "d:/git/cigna-scoreboard/rx/source/f_nrf24l01p.h"
 uint8 ___nrf_send (uint8 value);
 uint8 ___nrf_send_command (uint8 cmd, uint8 numbytes, uint8 * buffer);
 uint8 ___nrf_read_command (uint8 cmd, uint8 numbytes, uint8 * buffer);
@@ -755,9 +774,9 @@ uint8 nrf_test()
 
  return res;
 }
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/18f27j53_eepromemulation.h"
+#line 1 "d:/git/cigna-scoreboard/rx/source/18f27j53_eepromemulation.h"
 #line 1 "c:/program files (x86)/mikroelektronika/mikroc pro for pic/include/built_in.h"
-#line 19 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/18f27j53_eepromemulation.h"
+#line 19 "d:/git/cigna-scoreboard/rx/source/18f27j53_eepromemulation.h"
 void emu_eeprom_init ();
 void emu_eeprom_load ();
 void emu_eeprom_commit ();
@@ -826,23 +845,23 @@ uint8 emu_eeprom_rd(uint16 address)
 {
  return ___EMU_EEPROM_MEM[address];
 }
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/inneradt.h"
+#line 1 "d:/git/cigna-scoreboard/rx/source/inneradt.h"
 #line 1 "c:/program files (x86)/mikroelektronika/mikroc pro for pic/include/built_in.h"
-#line 10 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/inneradt.h"
+#line 10 "d:/git/cigna-scoreboard/rx/source/inneradt.h"
 const int16 TEAMS_MAX_POINTS = 199;
 const int16 TEAMS_MAX_SETS = 9;
 const int16 TEAMS_MAX_TIME = (99*60);
 
 
 
-typedef struct TTimeSpanStruct
+typedef struct t_timespanStruct
 {
  uint8 min;
  uint8 sec;
 
-} TTimeSpan;
+} t_timespan;
 
-typedef struct TTeamDataStruct
+typedef struct t_teamdataStruct
 {
  uint8 points;
  uint8 sets;
@@ -853,129 +872,129 @@ typedef struct TTeamDataStruct
 
 
 
-} TTeamData;
+} t_teamdata;
 
-typedef enum TLightFlags
+typedef enum t_lightflags
 {
  lfP7F = 1,
  lfP1 = 2,
  lfP2 = 4
 
-} TLightFlags;
+} t_lightflags;
 
-typedef struct TTabData_struct
+typedef struct t_tab_data_struct
 {
- TTeamData locals;
- TTeamData guests;
- TTimeSpan time;
+ t_teamdata locals;
+ t_teamdata guests;
+ t_timespan time;
 
-} TTabData;
-
-
-
-void tabdata_new (TTabData* instance);
-
-
-void tabdata_clear_time (TTabData* instance);
-void tabdata_clear_team (TTeamData* instance);
-
-void tabdata_add_sec (TTimeSpan* instance, int8 toAdd);
-void tabdata_add_min (TTimeSpan* instance, int8 toAdd);
-short tabdata_time_is_not_null (TTimeSpan* instance);
-
-void tabdata_add_points (TTeamData* instance, int8 toAdd);
-void tabdata_add_sets (TTeamData* instance, int8 toAdd);
-void tabdata_toggle_flag (TTeamData* instance, TLightFlags flag);
-void tabdata_add_pp (TTeamData* instance);
-void tabdata_sub_pp (TTeamData* instance);
-void tabdata_add_flag_seq (TTeamData* instance);
-void tabdata_sub_flag_seq (TTeamData* instance);
-void tabdata_swap (TTabData* instance);
+} t_tab_data;
 
 
 
-void tabdata_new(TTabData* instance)
+void tabdata_new (t_tab_data* instance);
+
+
+void tabdata_clear_time (t_tab_data* instance);
+void tabdata_clear_team (t_teamdata* instance);
+
+void tabdata_add_sec (t_timespan* instance, int8 toAdd);
+void tabdata_add_min (t_timespan* instance, int8 toAdd);
+short tabdata_time_is_not_null (t_timespan* instance);
+
+void tabdata_add_points (t_teamdata* instance, int8 toAdd);
+void tabdata_add_sets (t_teamdata* instance, int8 toAdd);
+void tabdata_toggle_flag (t_teamdata* instance, t_lightflags flag);
+void tabdata_add_pp (t_teamdata* instance);
+void tabdata_sub_pp (t_teamdata* instance);
+void tabdata_add_flag_seq (t_teamdata* instance);
+void tabdata_sub_flag_seq (t_teamdata* instance);
+void tabdata_swap (t_tab_data* instance);
+
+
+
+void tabdata_new(t_tab_data* instance)
 {
  tabdata_clear_time(instance);
  tabdata_clear_team(&(instance -> locals));
  tabdata_clear_team(&(instance -> guests));
 }
 
-void tabdata_clear_time(TTabData* instance)
+void tabdata_clear_time(t_tab_data* instance)
 {
  instance -> time.min = 0;
  instance -> time.sec = 0;
 }
 
-void tabdata_clear_team(TTeamData* instance)
+void tabdata_clear_team(t_teamdata* instance)
 {
  instance -> points = 0;
  instance -> sets = 0;
  instance -> flags = 0;
 }
 
-void tabdata_add_sec(TTimeSpan* instance, int8 toAdd)
+void tabdata_add_sec(t_timespan* instance, int8 toAdd)
 {
- int16 acTTimeSpan;
- acTTimeSpan = (int16)(instance -> min) * 60 + (int16)(instance -> sec);
+ int16 act_timespan;
+ act_timespan = (int16)(instance -> min) * 60 + (int16)(instance -> sec);
 
  if (toAdd > 0)
  {
- if (acTTimeSpan == TEAMS_MAX_TIME) acTTimeSpan = 0;
+ if (act_timespan == TEAMS_MAX_TIME) act_timespan = 0;
  else
  {
- acTTimeSpan += toAdd;
- if (acTTimeSpan > TEAMS_MAX_TIME) acTTimeSpan = TEAMS_MAX_TIME;
+ act_timespan += toAdd;
+ if (act_timespan > TEAMS_MAX_TIME) act_timespan = TEAMS_MAX_TIME;
  }
  }
  else
  {
- if (acTTimeSpan == 0) acTTimeSpan = TEAMS_MAX_TIME;
+ if (act_timespan == 0) act_timespan = TEAMS_MAX_TIME;
  else
  {
- acTTimeSpan += toAdd;
- if (acTTimeSpan < 0) acTTimeSpan = 0;
+ act_timespan += toAdd;
+ if (act_timespan < 0) act_timespan = 0;
  }
  }
 
- instance -> min = acTTimeSpan / 60;
- instance -> sec = acTTimeSpan % 60;
+ instance -> min = act_timespan / 60;
+ instance -> sec = act_timespan % 60;
 }
 
-void tabdata_add_min(TTimeSpan* instance, int8 toAdd)
+void tabdata_add_min(t_timespan* instance, int8 toAdd)
 {
- int16 acTTimeSpan;
- acTTimeSpan = (int16)(instance -> min) * 60 + (int16)(instance -> sec);
+ int16 act_timespan;
+ act_timespan = (int16)(instance -> min) * 60 + (int16)(instance -> sec);
 
  if (toAdd > 0)
  {
- if (acTTimeSpan == TEAMS_MAX_TIME) acTTimeSpan = 0;
+ if (act_timespan == TEAMS_MAX_TIME) act_timespan = 0;
  else
  {
- acTTimeSpan += toAdd * 60;
- if (acTTimeSpan > TEAMS_MAX_TIME) acTTimeSpan = TEAMS_MAX_TIME;
+ act_timespan += toAdd * 60;
+ if (act_timespan > TEAMS_MAX_TIME) act_timespan = TEAMS_MAX_TIME;
  }
  }
  else
  {
- if (acTTimeSpan == 0) acTTimeSpan = TEAMS_MAX_TIME;
+ if (act_timespan == 0) act_timespan = TEAMS_MAX_TIME;
  else
  {
- acTTimeSpan += toAdd * 60;
- if (acTTimeSpan < 0) acTTimeSpan = 0;
+ act_timespan += toAdd * 60;
+ if (act_timespan < 0) act_timespan = 0;
  }
  }
 
- instance -> min = acTTimeSpan / 60;
- instance -> sec = acTTimeSpan % 60;
+ instance -> min = act_timespan / 60;
+ instance -> sec = act_timespan % 60;
 }
 
-int8 tabdata_time_is_not_null(TTimeSpan* instance)
+int8 tabdata_time_is_not_null(t_timespan* instance)
 {
  return ((instance -> min > 0) || (instance -> sec > 0));
 }
 
-void tabdata_add_points(TTeamData* instance, int8 toAdd)
+void tabdata_add_points(t_teamdata* instance, int8 toAdd)
 {
  int16 newPoints = (int16)(instance -> points);
 
@@ -1001,7 +1020,7 @@ void tabdata_add_points(TTeamData* instance, int8 toAdd)
  instance -> points =  ((char *)&newPoints)[0] ;
 }
 
-void tabdata_add_sets(TTeamData* instance, int8 toAdd)
+void tabdata_add_sets(t_teamdata* instance, int8 toAdd)
 {
  int16 newSets = (int16)(instance -> sets);
 
@@ -1027,15 +1046,15 @@ void tabdata_add_sets(TTeamData* instance, int8 toAdd)
  instance -> sets =  ((char *)&newSets)[0] ;
 }
 
-void tabdata_toggle_flag(TTeamData* instance, TLightFlags flag)
+void tabdata_toggle_flag(t_teamdata* instance, t_lightflags flag)
 {
  if (instance -> flags & flag) instance -> flags -= flag;
  else instance -> flags |= flag;
 }
 
-void tabdata_swap(TTabData* instance)
+void tabdata_swap(t_tab_data* instance)
 {
- TTeamData swapInst;
+ t_teamdata swapInst;
  swapInst.points = instance -> locals -> points;
  swapInst.sets = instance -> locals -> sets;
  swapInst.flags = instance -> locals -> flags;
@@ -1049,7 +1068,7 @@ void tabdata_swap(TTabData* instance)
  instance -> guests.flags = swapInst.flags;
 }
 
-void tabdata_add_pp(TTeamData* instance)
+void tabdata_add_pp(t_teamdata* instance)
 {
  if (instance -> points < 15)
  instance -> points = 15;
@@ -1064,7 +1083,7 @@ void tabdata_add_pp(TTeamData* instance)
  }
 }
 
-void tabdata_sub_pp(TTeamData* instance)
+void tabdata_sub_pp(t_teamdata* instance)
 {
  if (instance -> points == 0)
  {
@@ -1081,7 +1100,7 @@ void tabdata_sub_pp(TTeamData* instance)
  instance -> points = 30;
 }
 
-void tabdata_add_flag_seq(TTeamData* instance)
+void tabdata_add_flag_seq(t_teamdata* instance)
 {
  if (instance ->  flags.B2 )
  {
@@ -1094,7 +1113,7 @@ void tabdata_add_flag_seq(TTeamData* instance)
  else instance ->  flags.B0  = 1;
 }
 
-void tabdata_sub_flag_seq(TTeamData* instance)
+void tabdata_sub_flag_seq(t_teamdata* instance)
 {
  if (instance ->  flags.B2 ) instance ->  flags.B2  = 0;
  else if (instance ->  flags.B1 ) instance ->  flags.B1  = 0;
@@ -1106,49 +1125,50 @@ void tabdata_sub_flag_seq(TTeamData* instance)
  instance ->  flags.B0  = 1;
  }
 }
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/config.h"
-#line 12 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/config.h"
-typedef struct TConfig_struct
+#line 1 "d:/git/cigna-scoreboard/rx/source/config.h"
+#line 12 "d:/git/cigna-scoreboard/rx/source/config.h"
+typedef struct t_config_struct
 {
  uint8 persistentFlags0;
 
 
 
-} TConfig;
+} t_config;
 
-typedef TConfig * TConfigInstance;
-
-
-
-void config_new (TConfigInstance instance);
-void config_save (TConfigInstance instance);
-int8 config_load (TConfigInstance instance);
+typedef t_config * t_configInstance;
 
 
 
-void config_new(TConfigInstance instance)
+void config_new (t_configInstance instance);
+void config_save (t_configInstance instance);
+int8 config_load (t_configInstance instance);
+
+
+
+void config_new(t_configInstance instance)
 {
  instance -> persistentFlags0 = 0;
 }
 
-void config_save(TConfigInstance instance)
+void config_save(t_configInstance instance)
 {
  emu_eeprom_wr( 0x0010 , instance -> persistentFlags0,  0 );
  emu_eeprom_wr( 0x0000 ,  18 ,  1 );
 }
 
-short config_load(TConfigInstance instance)
+short config_load(t_configInstance instance)
 {
  if (emu_eeprom_rd( 0x0000 ) !=  18 ) return 0;
  instance -> persistentFlags0 = emu_eeprom_rd( 0x0010 );
+ return 1;
 }
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/flags.h"
+#line 1 "d:/git/cigna-scoreboard/rx/source/flags.h"
 
 
 
 
 
-typedef struct TFlags_struct
+typedef struct t_flags_struct
 {
  uint8 flags0;
 
@@ -1159,13 +1179,13 @@ typedef struct TFlags_struct
 
 
 
-} TFlags;
+} t_flags;
 
-typedef TFlags * TFlagsInstance;
+typedef t_flags * t_flagsInstance;
 
 
 
-typedef enum TChangedFlags_enum
+typedef enum t_changed_flags_enum
 {
  tcfNone = 0,
  tcfLocals = 1,
@@ -1173,9 +1193,9 @@ typedef enum TChangedFlags_enum
  tcfTime = 4,
  tcfAll = 7
 
-} TChangedFlags;
+} t_changed_flags;
 
-typedef enum TAction_enum
+typedef enum t_action_enum
 {
  taNone = 0,
  taNotifyClaxon = 1,
@@ -1183,78 +1203,78 @@ typedef enum TAction_enum
  taTimeEnded = 4,
  taClear = 8
 
-} TAction;
+} t_action;
 
 
 
-void flags_new(TFlagsInstance instance);
+void flags_new(t_flagsInstance instance);
 
 
 
-void flags_new(TFlagsInstance instance)
+void flags_new(t_flagsInstance instance)
 {
  instance -> flags0 = 0;
 }
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/datamgr.h"
-#line 62 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/datamgr.h"
-typedef uint8 TCmd;
-typedef TChangedFlags CmdFunctionType;
-typedef CmdFunctionType(*CmdFunctionPointer)();
+#line 1 "d:/git/cigna-scoreboard/rx/source/datamgr.h"
+#line 62 "d:/git/cigna-scoreboard/rx/source/datamgr.h"
+typedef uint8 t_cmd;
+typedef t_changed_flags t_cmdfnc;
+typedef t_cmdfnc(*t_cmdfnc_ptr)();
 
 
 
-CmdFunctionType ApplyCmd(TCmd cmd);
+t_cmdfnc ApplyCmd(t_cmd cmd);
 
-CmdFunctionType CmdApply_None ();
-CmdFunctionType CmdApply_INC_PT_LOC ();
-CmdFunctionType CmdApply_INC_PLLP_LOC ();
-CmdFunctionType CmdApply_DEC_PT_LOC ();
-CmdFunctionType CmdApply_DEC_PLLP_LOC ();
-CmdFunctionType CmdApply_INC_PT_OSP ();
-CmdFunctionType CmdApply_INC_PLLP_OSP ();
-CmdFunctionType CmdApply_DEC_PT_OSP ();
-CmdFunctionType CmdApply_DEC_PLLP_OSP ();
-CmdFunctionType CmdApply_INC_SET_LOC ();
-CmdFunctionType CmdApply_DEC_SET_LOC ();
-CmdFunctionType CmdApply_INC_SET_OSP ();
-CmdFunctionType CmdApply_DEC_SET_OSP ();
-CmdFunctionType CmdApply_INC_LED_LOC ();
-CmdFunctionType CmdApply_DEC_LED_LOC ();
-CmdFunctionType CmdApply_INC_LED_OSP ();
-CmdFunctionType CmdApply_DEC_LED_OSP ();
-CmdFunctionType CmdApply_START ();
-CmdFunctionType CmdApply_DEBUG_MODE ();
-CmdFunctionType CmdApply_PAUSE ();
-CmdFunctionType CmdApply_STANDBY_TELC ();
-CmdFunctionType CmdApply_TIME_RESET ();
-CmdFunctionType CmdApply_CHANNEL_TEST ();
-CmdFunctionType CmdApply_TIME_SET ();
-CmdFunctionType CmdApply_CLAXON_ALT ();
-CmdFunctionType CmdApply_RES_PT_LOC ();
-CmdFunctionType CmdApply_RESET ();
-CmdFunctionType CmdApply_RES_PT_OSP ();
-CmdFunctionType CmdApply_HARD_RESET ();
-CmdFunctionType CmdApply_STANDBY ();
-CmdFunctionType CmdApply_SALVASCHERMO ();
-CmdFunctionType CmdApply_INVERTI ();
-CmdFunctionType CmdApply_CLAXON ();
-CmdFunctionType CmdApply_PROVA_CLAXON ();
-CmdFunctionType CmdApply_AUM_10M ();
-CmdFunctionType CmdApply_DIM_10M ();
-CmdFunctionType CmdApply_AUM_1M ();
-CmdFunctionType CmdApply_DIM_1M ();
-CmdFunctionType CmdApply_AUM_10S ();
-CmdFunctionType CmdApply_DIM_10S ();
-CmdFunctionType CmdApply_AUM_1S ();
-CmdFunctionType CmdApply_DIM_1S ();
-CmdFunctionType CmdApply_7F_LOC ();
-CmdFunctionType CmdApply_7F_OSP ();
-CmdFunctionType CmdApply_P1_LOC ();
-CmdFunctionType CmdApply_P1_OSP ();
-CmdFunctionType CmdApply_P2_LOC ();
-CmdFunctionType CmdApply_P2_OSP ();
+t_cmdfnc CmdApply_None ();
+t_cmdfnc CmdApply_INC_PT_LOC ();
+t_cmdfnc CmdApply_INC_PLLP_LOC ();
+t_cmdfnc CmdApply_DEC_PT_LOC ();
+t_cmdfnc CmdApply_DEC_PLLP_LOC ();
+t_cmdfnc CmdApply_INC_PT_OSP ();
+t_cmdfnc CmdApply_INC_PLLP_OSP ();
+t_cmdfnc CmdApply_DEC_PT_OSP ();
+t_cmdfnc CmdApply_DEC_PLLP_OSP ();
+t_cmdfnc CmdApply_INC_SET_LOC ();
+t_cmdfnc CmdApply_DEC_SET_LOC ();
+t_cmdfnc CmdApply_INC_SET_OSP ();
+t_cmdfnc CmdApply_DEC_SET_OSP ();
+t_cmdfnc CmdApply_INC_LED_LOC ();
+t_cmdfnc CmdApply_DEC_LED_LOC ();
+t_cmdfnc CmdApply_INC_LED_OSP ();
+t_cmdfnc CmdApply_DEC_LED_OSP ();
+t_cmdfnc CmdApply_START ();
+t_cmdfnc CmdApply_DEBUG_MODE ();
+t_cmdfnc CmdApply_PAUSE ();
+t_cmdfnc CmdApply_STANDBY_TELC ();
+t_cmdfnc CmdApply_TIME_RESET ();
+t_cmdfnc CmdApply_CHANNEL_TEST ();
+t_cmdfnc CmdApply_TIME_SET ();
+t_cmdfnc CmdApply_CLAXON_ALT ();
+t_cmdfnc CmdApply_RES_PT_LOC ();
+t_cmdfnc CmdApply_RESET ();
+t_cmdfnc CmdApply_RES_PT_OSP ();
+t_cmdfnc CmdApply_HARD_RESET ();
+t_cmdfnc CmdApply_STANDBY ();
+t_cmdfnc CmdApply_SALVASCHERMO ();
+t_cmdfnc CmdApply_INVERTI ();
+t_cmdfnc CmdApply_CLAXON ();
+t_cmdfnc CmdApply_PROVA_CLAXON ();
+t_cmdfnc CmdApply_AUM_10M ();
+t_cmdfnc CmdApply_DIM_10M ();
+t_cmdfnc CmdApply_AUM_1M ();
+t_cmdfnc CmdApply_DIM_1M ();
+t_cmdfnc CmdApply_AUM_10S ();
+t_cmdfnc CmdApply_DIM_10S ();
+t_cmdfnc CmdApply_AUM_1S ();
+t_cmdfnc CmdApply_DIM_1S ();
+t_cmdfnc CmdApply_7F_LOC ();
+t_cmdfnc CmdApply_7F_OSP ();
+t_cmdfnc CmdApply_P1_LOC ();
+t_cmdfnc CmdApply_P1_OSP ();
+t_cmdfnc CmdApply_P2_LOC ();
+t_cmdfnc CmdApply_P2_OSP ();
 
-CmdFunctionPointer ___datamgr_function_array[] =
+t_cmdfnc_ptr ___datamgr_function_array[] =
 {
  CmdApply_None,
  CmdApply_None,
@@ -1321,31 +1341,31 @@ CmdFunctionPointer ___datamgr_function_array[] =
  CmdApply_P2_OSP,
  CmdApply_None
 };
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/radioadt.h"
+#line 1 "d:/git/cigna-scoreboard/rx/source/radioadt.h"
 #line 1 "c:/program files (x86)/mikroelektronika/mikroc pro for pic/include/built_in.h"
-#line 10 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/radioadt.h"
+#line 10 "d:/git/cigna-scoreboard/rx/source/radioadt.h"
 const uint8 NRF_PACKET_NUM_CMD_BYTES =  3 ;
 const uint8 NRF_PACKET_NUM_ID_BYTES =  4 ;
 
 
 
-typedef struct TNrfPacket_Struct
+typedef struct t_nrf_packet_Struct
 {
  uint8 raw_cmd_bytes[NRF_PACKET_NUM_CMD_BYTES];
- TCmd cmd;
+ t_cmd cmd;
  uint8 id_bytes[NRF_PACKET_NUM_ID_BYTES];
 
-} TNrfPacket;
+} t_nrf_packet;
 
 
 
-void nrfpacket_from_raw_buffer (TNrfPacket* instance, uint8* buffer);
-uint8 nrfpacket_compare_id (TNrfPacket* instance, uint8* id);
-void nrfpacket_copy_id (TNrfPacket* instance, uint8* dest_id);
+void nrfpacket_from_raw_buffer (t_nrf_packet* instance, uint8* buffer);
+uint8 nrfpacket_compare_id (t_nrf_packet* instance, uint8* id);
+void nrfpacket_copy_id (t_nrf_packet* instance, uint8* dest_id);
 
 
 
-void nrfpacket_from_raw_buffer(TNrfPacket* instance, uint8* buffer)
+void nrfpacket_from_raw_buffer(t_nrf_packet* instance, uint8* buffer)
 {
 
  memcpy(&(instance -> id_bytes), buffer, NRF_PACKET_NUM_ID_BYTES);
@@ -1365,7 +1385,7 @@ void nrfpacket_from_raw_buffer(TNrfPacket* instance, uint8* buffer)
  instance -> cmd =  0 ;
 }
 
-uint8 nrfpacket_compare_id(TNrfPacket* instance, uint8* compare_id)
+uint8 nrfpacket_compare_id(t_nrf_packet* instance, uint8* compare_id)
 {
  uint8 i;
  for (i = 0; i < NRF_PACKET_NUM_ID_BYTES; i ++)
@@ -1375,29 +1395,29 @@ uint8 nrfpacket_compare_id(TNrfPacket* instance, uint8* compare_id)
  return 1;
 }
 
-void nrfpacket_copy_id(TNrfPacket* instance, uint8* dest_id)
+void nrfpacket_copy_id(t_nrf_packet* instance, uint8* dest_id)
 {
  uint8 i;
  for (i = 0; i < NRF_PACKET_NUM_ID_BYTES; i ++)
  dest_id[i] = instance -> id_bytes[i];
 }
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/datainstances.h"
+#line 1 "d:/git/cigna-scoreboard/rx/source/datainstances.h"
 
 
 
 
 
-TConfig configuration;
-TFlags flags;
-TTabData tab_data;
+t_config configuration;
+t_flags flags;
+t_tab_data tab_data;
 
-TResetReason whyRestarted;
+t_reset_reason whyRestarted;
 
-TChangedFlags whatsChanged;
-TAction pendingActions;
+t_changed_flags whatsChanged;
+t_action pendingActions;
 uint8 ClockTicksPending;
-TCmd CmdPending;
-TNrfPacket packet;
+t_cmd CmdPending;
+t_nrf_packet packet;
 uint8 packet_last_id_bytes[ 4 ];
 
 uint16 SyncedDelayCounter;
@@ -1421,114 +1441,114 @@ void variables_init()
  pendingActions = taNone;
  SyncedDelayCounter = 0;
 }
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/datamgrroutines.h"
+#line 1 "d:/git/cigna-scoreboard/rx/source/datamgrroutines.h"
 
 
 
 
 
-CmdFunctionType ApplyCmd(TCmd cmd)
+t_cmdfnc ApplyCmd(t_cmd cmd)
 {
- CmdFunctionPointer fptr;
+ t_cmdfnc_ptr fptr;
  if (cmd > 63) return tcfNone;
  fptr = ___datamgr_function_array[cmd];
  return fptr();
 }
 
-CmdFunctionType CmdApply_None ()
+t_cmdfnc CmdApply_None ()
 {
  return tcfNone;
 }
 
-CmdFunctionType CmdApply_INC_PT_LOC ()
+t_cmdfnc CmdApply_INC_PT_LOC ()
 {
  if (flags. flags0.B1 ) return CmdApply_AUM_10M();
  tabdata_add_points(&(tab_data.locals), 1);
  return tcfLocals;
 }
-CmdFunctionType CmdApply_INC_PLLP_LOC ()
+t_cmdfnc CmdApply_INC_PLLP_LOC ()
 {
  tabdata_add_pp(&(tab_data.locals));
  return tcfLocals;
 }
-CmdFunctionType CmdApply_DEC_PT_LOC ()
+t_cmdfnc CmdApply_DEC_PT_LOC ()
 {
  if (flags. flags0.B1 ) return CmdApply_DIM_10M();
  tabdata_add_points(&(tab_data.locals), -1);
  return tcfLocals;
 }
-CmdFunctionType CmdApply_DEC_PLLP_LOC ()
+t_cmdfnc CmdApply_DEC_PLLP_LOC ()
 {
  tabdata_sub_pp(&(tab_data.locals));
  return tcfLocals;
 }
-CmdFunctionType CmdApply_INC_PT_OSP ()
+t_cmdfnc CmdApply_INC_PT_OSP ()
 {
  if (flags. flags0.B1 ) return CmdApply_AUM_1S();
  tabdata_add_points(&(tab_data.guests), 1);
  return tcfGuests;
 }
-CmdFunctionType CmdApply_INC_PLLP_OSP ()
+t_cmdfnc CmdApply_INC_PLLP_OSP ()
 {
  tabdata_add_pp(&(tab_data.guests));
  return tcfGuests;
 }
-CmdFunctionType CmdApply_DEC_PT_OSP ()
+t_cmdfnc CmdApply_DEC_PT_OSP ()
 {
  if (flags. flags0.B1 ) return CmdApply_DIM_1S();
  tabdata_add_points(&(tab_data.guests), -1);
  return tcfGuests;
 }
-CmdFunctionType CmdApply_DEC_PLLP_OSP ()
+t_cmdfnc CmdApply_DEC_PLLP_OSP ()
 {
  tabdata_sub_pp(&(tab_data.guests));
  return tcfGuests;
 }
-CmdFunctionType CmdApply_INC_SET_LOC ()
+t_cmdfnc CmdApply_INC_SET_LOC ()
 {
  if (flags. flags0.B1 ) return CmdApply_AUM_1M();
  tabdata_add_sets(&(tab_data.locals), 1);
  return tcfLocals;
 }
-CmdFunctionType CmdApply_DEC_SET_LOC ()
+t_cmdfnc CmdApply_DEC_SET_LOC ()
 {
  if (flags. flags0.B1 ) return CmdApply_DIM_1M();
  tabdata_add_sets(&(tab_data.locals), -1);
  return tcfLocals;
 }
-CmdFunctionType CmdApply_INC_SET_OSP ()
+t_cmdfnc CmdApply_INC_SET_OSP ()
 {
  if (flags. flags0.B1 ) return CmdApply_AUM_10S();
  tabdata_add_sets(&(tab_data.guests), 1);
  return tcfGuests;
 }
-CmdFunctionType CmdApply_DEC_SET_OSP ()
+t_cmdfnc CmdApply_DEC_SET_OSP ()
 {
  if (flags. flags0.B1 ) return CmdApply_DIM_10S();
  tabdata_add_sets(&(tab_data.guests), -1);
  return tcfGuests;
 }
-CmdFunctionType CmdApply_INC_LED_LOC ()
+t_cmdfnc CmdApply_INC_LED_LOC ()
 {
  tabdata_add_flag_seq(&(tab_data.locals));
  return tcfLocals;
 }
-CmdFunctionType CmdApply_DEC_LED_LOC ()
+t_cmdfnc CmdApply_DEC_LED_LOC ()
 {
  tabdata_sub_flag_seq(&(tab_data.locals));
  return tcfLocals;
 }
-CmdFunctionType CmdApply_INC_LED_OSP ()
+t_cmdfnc CmdApply_INC_LED_OSP ()
 {
  tabdata_add_flag_seq(&(tab_data.guests));
  return tcfGuests;
 }
-CmdFunctionType CmdApply_DEC_LED_OSP ()
+t_cmdfnc CmdApply_DEC_LED_OSP ()
 {
  tabdata_sub_flag_seq(&(tab_data.guests));
  return tcfGuests;
 }
-CmdFunctionType CmdApply_START ()
+t_cmdfnc CmdApply_START ()
 {
  if (flags. flags0.B1 )
  flags. flags0.B1  = 0;
@@ -1538,20 +1558,20 @@ CmdFunctionType CmdApply_START ()
 
  return tcfTime;
 }
-CmdFunctionType CmdApply_PAUSE ()
+t_cmdfnc CmdApply_PAUSE ()
 {
  if (flags. flags0.B1 ) return tcfNone;
  flags. flags0.B0  = 0;
  return tcfTime;
 }
-CmdFunctionType CmdApply_TIME_RESET ()
+t_cmdfnc CmdApply_TIME_RESET ()
 {
  flags. flags0.B0  = 0;
  tabdata_clear_time(&tab_data);
 
  return tcfTime;
 }
-CmdFunctionType CmdApply_TIME_SET ()
+t_cmdfnc CmdApply_TIME_SET ()
 {
  if (flags. flags0.B1 )
  flags. flags0.B1  = 0;
@@ -1562,17 +1582,17 @@ CmdFunctionType CmdApply_TIME_SET ()
  }
  return tcfTime;
 }
-CmdFunctionType CmdApply_RES_PT_LOC ()
+t_cmdfnc CmdApply_RES_PT_LOC ()
 {
  tabdata_clear_team(&(tab_data.locals));
  return tcfLocals;
 }
-CmdFunctionType CmdApply_RES_PT_OSP ()
+t_cmdfnc CmdApply_RES_PT_OSP ()
 {
  tabdata_clear_team(&(tab_data.guests));
  return tcfGuests;
 }
-CmdFunctionType CmdApply_RESET ()
+t_cmdfnc CmdApply_RESET ()
 {
  if (flags. flags0.B1 ) return tcfNone;
 
@@ -1581,16 +1601,16 @@ CmdFunctionType CmdApply_RESET ()
 
  return tcfAll;
 }
-CmdFunctionType CmdApply_HARD_RESET ()
+t_cmdfnc CmdApply_HARD_RESET ()
 {
  asm RESET;
  return tcfAll;
 }
-CmdFunctionType CmdApply_SALVASCHERMO ()
+t_cmdfnc CmdApply_SALVASCHERMO ()
 {
  return CmdApply_STANDBY();
 }
-CmdFunctionType CmdApply_STANDBY ()
+t_cmdfnc CmdApply_STANDBY ()
 {
  flags. flags0.B0  = 0;
  flags. flags0.B2  = 1;
@@ -1598,110 +1618,110 @@ CmdFunctionType CmdApply_STANDBY ()
 
  return tcfAll;
 }
-CmdFunctionType CmdApply_STANDBY_TELC ()
+t_cmdfnc CmdApply_STANDBY_TELC ()
 {
  return CmdApply_STANDBY();
 }
-CmdFunctionType CmdApply_INVERTI ()
+t_cmdfnc CmdApply_INVERTI ()
 {
  tabdata_swap(&tab_data);
  return tcfLocals & tcfGuests;
 }
-CmdFunctionType CmdApply_CLAXON ()
+t_cmdfnc CmdApply_CLAXON ()
 {
  configuration. persistentFlags0.B0  = ! configuration. persistentFlags0.B0 ;
  flags. flags0.B5  = 1;
  pendingActions |= taNotifyClaxon;
  return tcfNone;
 }
-CmdFunctionType CmdApply_CLAXON_ALT ()
+t_cmdfnc CmdApply_CLAXON_ALT ()
 {
  return CmdApply_CLAXON();
 }
-CmdFunctionType CmdApply_PROVA_CLAXON ()
+t_cmdfnc CmdApply_PROVA_CLAXON ()
 {
  pendingActions |= taTryClaxon;
  return tcfNone;
 }
-CmdFunctionType CmdApply_7F_LOC ()
+t_cmdfnc CmdApply_7F_LOC ()
 {
  tabdata_toggle_flag(&(tab_data.locals), lfP7F);
  return tcfLocals;
 }
-CmdFunctionType CmdApply_7F_OSP ()
+t_cmdfnc CmdApply_7F_OSP ()
 {
  tabdata_toggle_flag(&(tab_data.guests), lfP7F);
  return tcfGuests;
 }
-CmdFunctionType CmdApply_P1_LOC ()
+t_cmdfnc CmdApply_P1_LOC ()
 {
  tabdata_toggle_flag(&(tab_data.locals), lfP1);
  return tcfLocals;
 }
-CmdFunctionType CmdApply_P1_OSP ()
+t_cmdfnc CmdApply_P1_OSP ()
 {
  tabdata_toggle_flag(&(tab_data.guests), lfP1);
  return tcfGuests;
 }
-CmdFunctionType CmdApply_P2_LOC ()
+t_cmdfnc CmdApply_P2_LOC ()
 {
  tabdata_toggle_flag(&(tab_data.locals), lfP2);
  return tcfLocals;
 }
-CmdFunctionType CmdApply_P2_OSP ()
+t_cmdfnc CmdApply_P2_OSP ()
 {
  tabdata_toggle_flag(&(tab_data.guests), lfP2);
  return tcfGuests;
 }
-CmdFunctionType CmdApply_AUM_10M ()
+t_cmdfnc CmdApply_AUM_10M ()
 {
  tabdata_add_min(&(tab_data.time), 10);
  return tcfTime;
 }
-CmdFunctionType CmdApply_DIM_10M ()
+t_cmdfnc CmdApply_DIM_10M ()
 {
  tabdata_add_min(&(tab_data.time), -10);
  return tcfTime;
 }
-CmdFunctionType CmdApply_AUM_1M ()
+t_cmdfnc CmdApply_AUM_1M ()
 {
  tabdata_add_min(&(tab_data.time), 1);
  return tcfTime;
 }
-CmdFunctionType CmdApply_DIM_1M ()
+t_cmdfnc CmdApply_DIM_1M ()
 {
  tabdata_add_min(&(tab_data.time), -1);
  return tcfTime;
 }
-CmdFunctionType CmdApply_AUM_10S ()
+t_cmdfnc CmdApply_AUM_10S ()
 {
  tabdata_add_sec(&(tab_data.time), 10);
  return tcfTime;
 }
-CmdFunctionType CmdApply_DIM_10S ()
+t_cmdfnc CmdApply_DIM_10S ()
 {
  tabdata_add_sec(&(tab_data.time), -10);
  return tcfTime;
 }
-CmdFunctionType CmdApply_AUM_1S ()
+t_cmdfnc CmdApply_AUM_1S ()
 {
  tabdata_add_sec(&(tab_data.time), 1);
  return tcfTime;
 }
-CmdFunctionType CmdApply_DIM_1S ()
+t_cmdfnc CmdApply_DIM_1S ()
 {
  tabdata_add_sec(&(tab_data.time), -1);
  return tcfTime;
 }
-CmdFunctionType CmdApply_CHANNEL_TEST ()
+t_cmdfnc CmdApply_CHANNEL_TEST ()
 {
  return tcfNone;
 }
-CmdFunctionType CmdApply_DEBUG_MODE ()
+t_cmdfnc CmdApply_DEBUG_MODE ()
 {
  return tcfNone;
 }
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/tabinterface.h"
+#line 1 "d:/git/cigna-scoreboard/rx/source/tabinterface.h"
 
 
 
@@ -1802,8 +1822,8 @@ void tab_display_msg (char* string, uint8 num);
 void tab_refresh_locals ();
 void tab_refresh_guests ();
 void tab_refresh_time ();
-void ___tab_refresh_teamdata(TTeamData* instance);
-#line 111 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/tabinterface.h"
+void ___tab_refresh_teamdata(t_teamdata* instance);
+#line 111 "d:/git/cigna-scoreboard/rx/source/tabinterface.h"
 void tab_init()
 {
  pinDato = 0;
@@ -1924,7 +1944,7 @@ void tab_refresh_time()
  tab_strobe_time();
 }
 
-void ___tab_refresh_teamdata(TTeamData* instance)
+void ___tab_refresh_teamdata(t_teamdata* instance)
 {
  uint8 refr_dato;
  char txt4[4];
@@ -1939,7 +1959,7 @@ void ___tab_refresh_teamdata(TTeamData* instance)
  sprinti(txt4, "%3i", (int16)instance -> points);
  tab_send_string(txt4 + 1, 2);
 }
-#line 1 "d:/cloud/dropbox/d/tabellone strickes back/source/ricevitore/test.h"
+#line 1 "d:/git/cigna-scoreboard/rx/source/test.h"
 
 
 
@@ -1974,12 +1994,12 @@ void debug_write_tab_data()
  );
   debug_uart_send_text(line) ;
 }
-#line 3 "D:/Cloud/Dropbox/d/tabellone strickes back/source/Ricevitore/tab rx 1.c"
+#line 3 "D:/Git/cigna-scoreboard/RX/source/tab rx 1.c"
 void init();
 uint8 main_nrf_init();
 
-void ProcessRxCmd(TCmd * cmd);
-void ProcessPendingActions(TAction * actions);
+void ProcessRxCmd(t_cmd * cmd);
+void ProcessPendingActions(t_action * actions);
 void ProcessPendingTicks(uint8 * ticks);
 void SyncedDelay(uint16 ms);
 void TriggerAlarm(uint16 time);
@@ -2066,7 +2086,7 @@ void ProcessDisplay()
 
 void ProcessDisplayOn()
 {
- TChangedFlags localChanged;
+ t_changed_flags localChanged;
 
  localChanged = whatsChanged;
  whatsChanged = 0;
@@ -2104,9 +2124,9 @@ void ProcessDisplayStandby()
  else cnt ++;
 }
 
-void ProcessRxCmd(TCmd * cmd)
+void ProcessRxCmd(t_cmd * cmd)
 {
- uint8 localCmd;
+ t_cmd localCmd;
 
 
   { sprinti(___debug_line, "ProcessRxCmd %i", (int16)(*cmd)); debug_uart_send_text(___debug_line); } ;
@@ -2150,9 +2170,9 @@ void ProcessPendingTicks(uint8 * ticks)
  }
 }
 
-void ProcessPendingActions(TAction * actions)
+void ProcessPendingActions(t_action * actions)
 {
- TAction localActions;
+ t_action localActions;
  int8 i8;
  char txt5[5];
 

@@ -2,28 +2,6 @@
 #define _incl_hardware_h
 
 /* Tipi di dato ============================================================= */
-
-#define INPUT   1
-#define OUTPUT  0
-
-#define YES     1
-#define NO      0
-
-#define TRUE    1
-#define FALSE   0
-
-#define INTERRUPT_PRIORITY_HIGH 1
-#define INTERRUPT_PRIORITY_LOW 0
-
-typedef unsigned short      uint8;
-typedef   signed short      int8;
-typedef unsigned int        uint16;
-typedef   signed int        int16;
-typedef unsigned long       uint32;
-typedef   signed long       int32;
-typedef unsigned long long  uint64;
-typedef   signed long long  int64;
-
 /* Costanti ================================================================= */
 
 sbit pinDato           at LATB7_Bit;
@@ -52,7 +30,7 @@ sbit PIN_DBG_0         at LATA0_Bit;
 sbit PIN_DBG_0_Dir     at TRISA0_Bit;
 #endif
 
-typedef enum TResetReason_enum
+typedef enum t_reset_reason_enum
 {
      NormalReset,
      SelfReset,
@@ -60,14 +38,14 @@ typedef enum TResetReason_enum
      PowerDownReset,
      BrownOutReset
      
-} TResetReason;
+} t_reset_reason;
 
 /* Prototipi ================================================================ */
 
 void            hw_init();
 void            hw_int_enable();
 void            hw_int_disable();
-TResetReason    hw_get_reset_reason();
+t_reset_reason  hw_get_reset_reason();
 
 /* Implementazioni ========================================================== */
 
@@ -133,7 +111,7 @@ void hw_int_disable()
     INTCON.GIEL = 0;
 }
 
-TResetReason hw_get_reset_reason()
+t_reset_reason hw_get_reset_reason()
 {
     if (! RCON.TO_) return WDTReset;
     if (! RCON.PD) return PowerDownReset;
