@@ -1,7 +1,7 @@
 #include "header.h"
 
 void init();
-uint8 main_nrf_init();
+t_operation main_nrf_init();
 
 void ProcessRxCmd(t_cmd * cmd);
 void ProcessPendingActions(t_action * actions);
@@ -24,10 +24,10 @@ void main()
     while (1)
     {
         if (flags.rxCmdPending)
-            ProcessRxCmd(&CmdPending);
+            ProcessRxCmd(&cmdPending);
 
-        if (ClockTicksPending) 
-            ProcessPendingTicks(&ClockTicksPending);
+        if (clockTicksPending)
+            ProcessPendingTicks(&clockTicksPending);
 
         if (pendingActions != taNone)
             ProcessPendingActions(&pendingActions);
@@ -70,7 +70,7 @@ void CheckRFInput()
         debug_sprinti_1("RX PACK OK %i", (int16)(packet.cmd));
         #endif
 
-        CmdPending = packet.cmd;
+        cmdPending = packet.cmd;
         flags.rxCmdPending = 1;
     }
     nrf_rx_start_listening();
@@ -193,9 +193,9 @@ void ProcessPendingActions(t_action * actions)
     if (localActions & taNotifyClaxon)
     {
         if (configuration.UseClaxon)
-            tab_display_msg("COFF", 4);
+            tab_display_msg("SOFF", 4);
         else
-            tab_display_msg("C ON", 4);
+            tab_display_msg("S ON", 4);
             
         SyncedDelay(1000);
         whatsChanged |= tcfAll;
@@ -205,7 +205,7 @@ void ProcessPendingActions(t_action * actions)
     {
         for (i8 = 3; i8 > 0; i8 --)
         {
-            sprinti(txt5, "%i...", (int16)i8);
+            sprinti(txt5, "   %i", (int16)i8);
             tab_display_msg(txt5, 4);
         }
     
@@ -215,8 +215,8 @@ void ProcessPendingActions(t_action * actions)
     
     if (localActions & taTimeEnded)
     {
-        TriggerAlarm(1500);
         tab_display_msg("----", 4);
+        TriggerAlarm(1500);
         whatsChanged |= tcfAll;
     }
     
@@ -239,7 +239,7 @@ void InterruptLow() iv 0x0018 ics ICS_AUTO
         TMR0L += 69;
         
         flags.timedRoutinePending = 1;
-        if (SyncedDelayCounter > 0) SyncedDelayCounter = 0;
+        if (syncedDelayCounter > 0) syncedDelayCounter --;
         
         #if DEBUG
         PIN_DBG_0 = ! PIN_DBG_0;
@@ -257,8 +257,8 @@ void InterruptHigh() iv 0x0008 ics ICS_AUTO
         PIR1.TMR1IF = 0;
 
         // increment ticks pending if time started and not too much
-        if ((flags.timeStarted) && (!flags.inStandby) && (!ClockTicksPending.B7))
-            ClockTicksPending ++;
+        if ((flags.timeStarted) && (!flags.inStandby) && (!clockTicksPending.B7))
+            clockTicksPending ++;
     }
 }
 
@@ -274,7 +274,7 @@ void init()
     
     tab_display_msg("    ", 4);
 
-    if (whyRestarted == SelfReset)
+    if (whyRestarted == RESET_SELF)
     {
         tab_display_msg("----", 4);
         Delay_ms(1000);
@@ -304,8 +304,8 @@ void init()
 
 void SyncedDelay(uint16 ms)
 {
-    SyncedDelayCounter = ms;
-    while (SyncedDelayCounter > 0) ;
+    syncedDelayCounter = ms;
+    while (syncedDelayCounter > 0) ;
 }
 
 void TriggerAlarm(uint16 time)
@@ -313,12 +313,11 @@ void TriggerAlarm(uint16 time)
     pinClaxon = 1;
     SyncedDelay(time);
     pinClaxon = 0;
-    SyncedDelay(250);
+    SyncedDelay(50);
 }
 
-uint8 main_nrf_init()
+t_operation main_nrf_init()
 {
-    uint8 res;
     uint8 addr[CFG_NUM_ADDRESS_BYTES] = {CFG_ADDRESS};
 
     nrf_init();
@@ -332,5 +331,5 @@ uint8 main_nrf_init()
     nrf_set_data_rate           (CFG_DATARATE);
     nrf_set_rx_pipe             (0, CFG_NUM_ADDRESS_BYTES, addr, CFG_PAYLOAD_SIZE);
     
-    return nrf_test();
+    return nrf_test() ? SUCCESS : ERROR;
 }

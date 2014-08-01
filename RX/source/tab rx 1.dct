@@ -19,6 +19,11 @@ ___nrf_send
 ___nrf_send_command
 ___tab_charmap
 ___tab_refresh_teamdata
+___tab_time_bit_setting_us
+___tab_time_clock_active_us
+___tab_time_clock_off_us
+___tab_time_strobe_active_us
+___tab_time_strobe_off_us
 __ca2aw
 __cc2d
 __cc2dw
@@ -2876,11 +2881,6 @@ tab_send_string
 tab_strobe_guests
 tab_strobe_locals
 tab_strobe_time
-tab_time_bit_setting_us
-tab_time_clock_active_us
-tab_time_clock_off_us
-tab_time_strobe_active_us
-tab_time_strobe_off_us
 tabdata_add_flag_seq
 tabdata_add_min
 tabdata_add_points

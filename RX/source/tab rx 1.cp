@@ -6,9 +6,17 @@
 
 
 
+
+
+
+
+
  void debug_uart_init()
  {
- Soft_uart_init(&PORTB, 6, 7, 9600, 0);
+ Soft_uart_init( &PORTB ,
+  6 ,
+  7 ,
+  9600 , 0);
  }
 
  void debug_uart_send_text(char* text)
@@ -19,15 +27,13 @@
  inten = INTCON & 0b11000000;
  INTCON &= 0b00111111;
 
- for (i = 0; i < 20; i ++) Soft_uart_write('-');
-
  for (i = 0; text[i] != '\0'; i ++)
  Soft_uart_write(text[i]);
  Soft_uart_write(13);
  Soft_uart_write(10);
 
  INTCON = inten;
- Delay_ms(10);
+ Delay_ms(1);
  }
 
  char ___debug_line[128];
@@ -89,22 +95,22 @@ sbit PIN_DBG_0 at LATA0_Bit;
 sbit PIN_DBG_0_Dir at TRISA0_Bit;
 
 
-typedef enum t_reset_reason_enum
+typedef enum t_reset_enum
 {
- NormalReset,
- SelfReset,
- WDTReset,
- PowerDownReset,
- BrownOutReset
+ RESET_NORMAL,
+ RESET_SELF,
+ RESET_WDT,
+ RESET_POWERDOWN,
+ RESET_BROWNOUT
 
-} t_reset_reason;
+} t_reset;
 
 
 
 void hw_init();
 void hw_int_enable();
 void hw_int_disable();
-t_reset_reason hw_get_reset_reason();
+t_reset hw_get_reset_reason();
 
 
 
@@ -170,25 +176,25 @@ void hw_int_disable()
  INTCON.GIEL = 0;
 }
 
-t_reset_reason hw_get_reset_reason()
+t_reset hw_get_reset_reason()
 {
- if (! RCON.TO_) return WDTReset;
- if (! RCON.PD) return PowerDownReset;
+ if (! RCON.TO_) return RESET_WDT;
+ if (! RCON.PD) return RESET_POWERDOWN;
 
  if (! RCON.RI)
  {
  RCON.RI = 1;
- return SelfReset;
+ return RESET_SELF;
  }
 
  if (! RCON.BOR)
  {
  RCON.BOR = 1;
- if (RCON.POR) return BrownOutReset;
+ if (RCON.POR) return RESET_BROWNOUT;
  }
 
  if (! RCON.POR) RCON.POR = 1;
- return NormalReset;
+ return RESET_NORMAL;
 }
 #line 1 "d:/git/cigna-scoreboard/rx/source/nrf_cfg.h"
 #line 1 "d:/git/cigna-scoreboard/rx/source/f_nrf24l01p.h"
@@ -1411,16 +1417,16 @@ t_config configuration;
 t_flags flags;
 t_tab_data tab_data;
 
-t_reset_reason whyRestarted;
+t_reset whyRestarted;
 
 t_changed_flags whatsChanged;
 t_action pendingActions;
-uint8 ClockTicksPending;
-t_cmd CmdPending;
+uint8 clockTicksPending;
+t_cmd cmdPending;
 t_nrf_packet packet;
 uint8 packet_last_id_bytes[ 4 ];
 
-uint16 SyncedDelayCounter;
+uint16 syncedDelayCounter;
 
 
 
@@ -1727,11 +1733,11 @@ t_cmdfnc CmdApply_DEBUG_MODE ()
 
 
 
-const uint32 TAB_TIME_BIT_SETTING_US = 100;
-const uint32 TAB_TIME_CLOCK_ACTIVE_US = 100;
-const uint32 TAB_TIME_CLOCK_OFF_US = 100;
-const uint32 TAB_TIME_STROBE_ACTIVE_US = 100;
-const uint32 TAB_TIME_STROBE_OFF_US = 100;
+const uint32 ___TAB_TIME_BIT_SETTING_US = 100;
+const uint32 ___TAB_TIME_CLOCK_ACTIVE_US = 100;
+const uint32 ___TAB_TIME_CLOCK_OFF_US = 100;
+const uint32 ___TAB_TIME_STROBE_ACTIVE_US = 100;
+const uint32 ___TAB_TIME_STROBE_OFF_US = 100;
 
 
 
@@ -1822,7 +1828,7 @@ void tab_display_msg (char* string, uint8 num);
 void tab_refresh_locals ();
 void tab_refresh_guests ();
 void tab_refresh_time ();
-void ___tab_refresh_teamdata(t_teamdata* instance);
+void ___tab_refresh_teamdata (t_teamdata* instance);
 #line 111 "d:/git/cigna-scoreboard/rx/source/tabinterface.h"
 void tab_init()
 {
@@ -1853,12 +1859,12 @@ void tab_send_byte(uint8 byteToSend)
  for (i = 0; i < 8; i ++)
  {
  pinDato = ! byteToSend.B7;
- Delay_us(TAB_TIME_BIT_SETTING_US);
+ Delay_us(___TAB_TIME_BIT_SETTING_US);
 
  pinClock = 1;
- Delay_us(TAB_TIME_CLOCK_ACTIVE_US);
+ Delay_us(___TAB_TIME_CLOCK_ACTIVE_US);
  pinClock = 0;
- Delay_us(TAB_TIME_CLOCK_OFF_US);
+ Delay_us(___TAB_TIME_CLOCK_OFF_US);
 
  byteToSend = byteToSend << 1;
  }
@@ -1882,7 +1888,7 @@ void tab_display_msg(char* string, uint8 num)
  len = num;
  while (len++ < 4) tab_send_byte(0x00);
  tab_send_string(string, num);
-  { pinTempo = 1; Delay_us(TAB_TIME_STROBE_ACTIVE_US); pinTempo = 0; Delay_us(TAB_TIME_STROBE_OFF_US); } ;
+  { pinTempo = 1; Delay_us(___TAB_TIME_STROBE_ACTIVE_US); pinTempo = 0; Delay_us(___TAB_TIME_STROBE_OFF_US); } ;
 }
 
 void tab_send_string(uint8* string, uint8 num)
@@ -1904,7 +1910,7 @@ void tab_strobe_locals()
 
   debug_uart_send_text("strobe loc") ;
 
-  { pinLocali = 1; Delay_us(TAB_TIME_STROBE_ACTIVE_US); pinLocali = 0; Delay_us(TAB_TIME_STROBE_OFF_US); } ;
+  { pinLocali = 1; Delay_us(___TAB_TIME_STROBE_ACTIVE_US); pinLocali = 0; Delay_us(___TAB_TIME_STROBE_OFF_US); } ;
 }
 
 void tab_strobe_guests()
@@ -1912,7 +1918,7 @@ void tab_strobe_guests()
 
   debug_uart_send_text("strobe osp") ;
 
-  { pinOspiti = 1; Delay_us(TAB_TIME_STROBE_ACTIVE_US); pinOspiti = 0; Delay_us(TAB_TIME_STROBE_OFF_US); } ;
+  { pinOspiti = 1; Delay_us(___TAB_TIME_STROBE_ACTIVE_US); pinOspiti = 0; Delay_us(___TAB_TIME_STROBE_OFF_US); } ;
 }
 
 void tab_strobe_time()
@@ -1920,7 +1926,7 @@ void tab_strobe_time()
 
   debug_uart_send_text("strobe time") ;
 
-  { pinTempo = 1; Delay_us(TAB_TIME_STROBE_ACTIVE_US); pinTempo = 0; Delay_us(TAB_TIME_STROBE_OFF_US); } ;
+  { pinTempo = 1; Delay_us(___TAB_TIME_STROBE_ACTIVE_US); pinTempo = 0; Delay_us(___TAB_TIME_STROBE_OFF_US); } ;
 }
 
 void tab_refresh_locals()
@@ -1996,7 +2002,7 @@ void debug_write_tab_data()
 }
 #line 3 "D:/Git/cigna-scoreboard/RX/source/tab rx 1.c"
 void init();
-uint8 main_nrf_init();
+t_operation main_nrf_init();
 
 void ProcessRxCmd(t_cmd * cmd);
 void ProcessPendingActions(t_action * actions);
@@ -2019,10 +2025,10 @@ void main()
  while (1)
  {
  if (flags. flags0.B4 )
- ProcessRxCmd(&CmdPending);
+ ProcessRxCmd(&cmdPending);
 
- if (ClockTicksPending)
- ProcessPendingTicks(&ClockTicksPending);
+ if (clockTicksPending)
+ ProcessPendingTicks(&clockTicksPending);
 
  if (pendingActions != taNone)
  ProcessPendingActions(&pendingActions);
@@ -2065,7 +2071,7 @@ void CheckRFInput()
   { sprinti(___debug_line, "RX PACK OK %i", (int16)(packet.cmd)); debug_uart_send_text(___debug_line); } ;
 
 
- CmdPending = packet.cmd;
+ cmdPending = packet.cmd;
  flags. flags0.B4  = 1;
  }
  nrf_rx_start_listening();
@@ -2188,9 +2194,9 @@ void ProcessPendingActions(t_action * actions)
  if (localActions & taNotifyClaxon)
  {
  if (configuration. persistentFlags0.B0 )
- tab_display_msg("COFF", 4);
+ tab_display_msg("SOFF", 4);
  else
- tab_display_msg("C ON", 4);
+ tab_display_msg("S ON", 4);
 
  SyncedDelay(1000);
  whatsChanged |= tcfAll;
@@ -2200,7 +2206,7 @@ void ProcessPendingActions(t_action * actions)
  {
  for (i8 = 3; i8 > 0; i8 --)
  {
- sprinti(txt5, "%i...", (int16)i8);
+ sprinti(txt5, "   %i", (int16)i8);
  tab_display_msg(txt5, 4);
  }
 
@@ -2210,8 +2216,8 @@ void ProcessPendingActions(t_action * actions)
 
  if (localActions & taTimeEnded)
  {
- TriggerAlarm(1500);
  tab_display_msg("----", 4);
+ TriggerAlarm(1500);
  whatsChanged |= tcfAll;
  }
 
@@ -2234,7 +2240,7 @@ void InterruptLow() iv 0x0018 ics ICS_AUTO
  TMR0L += 69;
 
  flags. flags0.B6  = 1;
- if (SyncedDelayCounter > 0) SyncedDelayCounter = 0;
+ if (syncedDelayCounter > 0) syncedDelayCounter --;
 
 
  PIN_DBG_0 = ! PIN_DBG_0;
@@ -2252,8 +2258,8 @@ void InterruptHigh() iv 0x0008 ics ICS_AUTO
  PIR1.TMR1IF = 0;
 
 
- if ((flags. flags0.B0 ) && (!flags. flags0.B2 ) && (!ClockTicksPending.B7))
- ClockTicksPending ++;
+ if ((flags. flags0.B0 ) && (!flags. flags0.B2 ) && (!clockTicksPending.B7))
+ clockTicksPending ++;
  }
 }
 
@@ -2269,7 +2275,7 @@ void init()
 
  tab_display_msg("    ", 4);
 
- if (whyRestarted == SelfReset)
+ if (whyRestarted == RESET_SELF)
  {
  tab_display_msg("----", 4);
  Delay_ms(1000);
@@ -2299,8 +2305,8 @@ void init()
 
 void SyncedDelay(uint16 ms)
 {
- SyncedDelayCounter = ms;
- while (SyncedDelayCounter > 0) ;
+ syncedDelayCounter = ms;
+ while (syncedDelayCounter > 0) ;
 }
 
 void TriggerAlarm(uint16 time)
@@ -2308,12 +2314,11 @@ void TriggerAlarm(uint16 time)
  pinClaxon = 1;
  SyncedDelay(time);
  pinClaxon = 0;
- SyncedDelay(250);
+ SyncedDelay(50);
 }
 
-uint8 main_nrf_init()
+t_operation main_nrf_init()
 {
- uint8 res;
  uint8 addr[ 5 ] = { 0, 1, 2, 3, 4 };
 
  nrf_init();
@@ -2327,5 +2332,5 @@ uint8 main_nrf_init()
  nrf_set_data_rate ( 0b00 );
  nrf_set_rx_pipe (0,  5 , addr,  7 );
 
- return nrf_test();
+ return nrf_test() ? SUCCESS : ERROR;
 }

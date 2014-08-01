@@ -30,22 +30,22 @@ sbit PIN_DBG_0         at LATA0_Bit;
 sbit PIN_DBG_0_Dir     at TRISA0_Bit;
 #endif
 
-typedef enum t_reset_reason_enum
+typedef enum t_reset_enum
 {
-     NormalReset,
-     SelfReset,
-     WDTReset,
-     PowerDownReset,
-     BrownOutReset
+     RESET_NORMAL,
+     RESET_SELF,
+     RESET_WDT,
+     RESET_POWERDOWN,
+     RESET_BROWNOUT
      
-} t_reset_reason;
+} t_reset;
 
 /* Prototipi ================================================================ */
 
 void            hw_init();
 void            hw_int_enable();
 void            hw_int_disable();
-t_reset_reason  hw_get_reset_reason();
+t_reset         hw_get_reset_reason();
 
 /* Implementazioni ========================================================== */
 
@@ -111,25 +111,25 @@ void hw_int_disable()
     INTCON.GIEL = 0;
 }
 
-t_reset_reason hw_get_reset_reason()
+t_reset hw_get_reset_reason()
 {
-    if (! RCON.TO_) return WDTReset;
-    if (! RCON.PD) return PowerDownReset;
+    if (! RCON.TO_) return RESET_WDT;
+    if (! RCON.PD) return RESET_POWERDOWN;
 
     if (! RCON.RI)
     {
         RCON.RI = 1;
-        return SelfReset;
+        return RESET_SELF;
     }
 
     if (! RCON.BOR)
     {
         RCON.BOR = 1;
-        if (RCON.POR) return BrownOutReset;
+        if (RCON.POR) return RESET_BROWNOUT;
     }
     
     if (! RCON.POR) RCON.POR = 1;
-    return NormalReset;
+    return RESET_NORMAL;
 }
 
 #endif

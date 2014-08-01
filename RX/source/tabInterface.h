@@ -3,11 +3,11 @@
 
 /* Costanti ================================================================= */
 
-const uint32 TAB_TIME_BIT_SETTING_US =   100;
-const uint32 TAB_TIME_CLOCK_ACTIVE_US =  100;
-const uint32 TAB_TIME_CLOCK_OFF_US =     100;
-const uint32 TAB_TIME_STROBE_ACTIVE_US = 100;
-const uint32 TAB_TIME_STROBE_OFF_US =    100;
+const uint32 ___TAB_TIME_BIT_SETTING_US =   100;
+const uint32 ___TAB_TIME_CLOCK_ACTIVE_US =  100;
+const uint32 ___TAB_TIME_CLOCK_OFF_US =     100;
+const uint32 ___TAB_TIME_STROBE_ACTIVE_US = 100;
+const uint32 ___TAB_TIME_STROBE_OFF_US =    100;
 
 #define n__d 0x40
 
@@ -81,30 +81,30 @@ const uint8 ___TAB_CHARMAP[] =
 
 /* Prototipi ================================================================ */
 
-void tab_init              ();
-void tab_send_string       (uint8* string, uint8 num);
-void tab_send_num          (uint8 num);
+void tab_init                ();
+void tab_send_string         (uint8* string, uint8 num);
+void tab_send_num            (uint8 num);
 
-void tab_strobe_locals     ();
-void tab_strobe_guests     ();
-void tab_strobe_time       ();
+void tab_strobe_locals       ();
+void tab_strobe_guests       ();
+void tab_strobe_time         ();
 
-void tab_send_byte         (uint8 byteToSend);
-// MACRO ___tab_get_codified_number(uint8 number);
-// MACRO ___tab_get_codified_character(uint8 character);
-// MACRO ___tab_strobe(pin)
+void tab_send_byte           (uint8 byteToSend);
+// MACRO ___tab_get_codified_number    (uint8 number);
+// MACRO ___tab_get_codified_character (uint8 character);
+// MACRO ___tab_strobe                 (pin)
 
-void tab_display_msg       (char* string, uint8 num);
-void tab_refresh_locals    ();
-void tab_refresh_guests    ();
-void tab_refresh_time      ();
-void ___tab_refresh_teamdata(t_teamdata* instance);
+void tab_display_msg         (char* string, uint8 num);
+void tab_refresh_locals      ();
+void tab_refresh_guests      ();
+void tab_refresh_time        ();
+void ___tab_refresh_teamdata (t_teamdata* instance);
 
 /* Implementazioni ========================================================== */
 
 #define ___tab_strobe(pin) { \
-    pin = 1; Delay_us(TAB_TIME_STROBE_ACTIVE_US); \
-    pin = 0; Delay_us(TAB_TIME_STROBE_OFF_US); }
+    pin = 1; Delay_us(___TAB_TIME_STROBE_ACTIVE_US); \
+    pin = 0; Delay_us(___TAB_TIME_STROBE_OFF_US); }
 #define ___tab_get_codified_number(n) ___TAB_CHARMAP[n + '0']
 #define ___tab_get_codified_character(c) ___TAB_CHARMAP[c]
 
@@ -137,12 +137,12 @@ void tab_send_byte(uint8 byteToSend)
     for (i = 0; i < 8; i ++)
     {
         pinDato = ! byteToSend.B7;
-        Delay_us(TAB_TIME_BIT_SETTING_US);
+        Delay_us(___TAB_TIME_BIT_SETTING_US);
         
         pinClock = 1;
-        Delay_us(TAB_TIME_CLOCK_ACTIVE_US);
+        Delay_us(___TAB_TIME_CLOCK_ACTIVE_US);
         pinClock = 0;
-        Delay_us(TAB_TIME_CLOCK_OFF_US);
+        Delay_us(___TAB_TIME_CLOCK_OFF_US);
         
         byteToSend = byteToSend << 1;
     }

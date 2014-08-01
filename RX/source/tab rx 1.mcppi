@@ -6,7 +6,7 @@ Value=-1
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=config.h
+Value=tab rx 1.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -24,10 +24,13 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=3
+Count=6
 File0=common_pic18.h
 File1=tab rx 1.c
-File2=config.h
+File2=tabInterface.h
+File3=hardware.h
+File4=dataInstances.h
+File5=debug.h
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -37,7 +40,7 @@ Count=1
 File0=da portare.txt
 [SEARCH_PATH]
 Count=3
-Path0=C:\Program Files (x86)\Mikroelektronika\mikroC PRO for PIC\Defs\
+Path0=C:\Program Files (x86)\Mikroelektronika\mikroC PRO for PIC\defs\
 Path1=C:\Program Files (x86)\Mikroelektronika\mikroC PRO for PIC\uses\P18\
 Path2=D:\Git\cigna-scoreboard\RX\source\
 [HEADER_PATH]
