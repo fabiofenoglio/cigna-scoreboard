@@ -30,3 +30,14 @@
 *.asm
 *.cp
 *.pdsbak
+*.bmk
+*.brk
+*.cfg
+*.dbg
+*.dct
+*.dlt
+*.lst
+*.mcl
+*.mcppi
+*.mcppi_callertable.txt
+*.dic
