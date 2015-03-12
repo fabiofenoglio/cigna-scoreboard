@@ -1,8 +1,8 @@
 #include "header.h"
 
 /* Prototypes =============================================================== */
-void interrupt_low()  iv 0x0018 ics ICS_OFF { asm goto 0x2C18; }
-void interrupt_high() iv 0x0008 ics ICS_OFF { asm goto 0x2C08; }
+void interrupt_low()  iv 0x0018 ics ICS_OFF { asm goto 0x1C18; }
+void interrupt_high() iv 0x0008 ics ICS_OFF { asm goto 0x1C08; }
 
 void        init                ();
 t_operation main_nrf_init       ();
@@ -11,33 +11,39 @@ void        exit_bootloader     ();
 t_bool      memory_is_blank     ();
 t_bool      hook_bootloader_tx  ();
 void        delay_ms_r          (int16 delay);
-uint8       calculate_checksum  ();
 
 uint8       flash_buffer_index  ;
 uint8       buffer              [BYTES_PER_PACKET];
-uint32      last_packet_id;
 
 #define HELL_FROZEN 0
+
+void TEST() // TODO REMOVE THIS SHIT
+{
+    nrf_rx_start_listening();
+    
+    while (! HELL_FROZEN)
+    {
+        check_rf_input();
+    }
+}
 
 void main()
 {
     init();
-    
-    #if DEBUG
-    debug_print("hooking ...");
-    #endif
+    TEST();
     
     if (! hook_bootloader_tx())
     {
-        if (! memory_is_blank())
+        if (memory_is_blank())
+        {
+            tab_display_msg("E 02", 4);
+            delay_ms_r(ERROR_SHOW_TIME);
+            asm RESET;
+        }
+        else
             exit_bootloader();
-        debug_print("memory blank: auto-hook");
     }
     
-    #if DEBUG
-    debug_print("hooked");
-    #endif
-
     while (! HELL_FROZEN)
     {
         check_rf_input();
@@ -81,8 +87,9 @@ t_bool memory_is_blank()
 
 void exit_bootloader()
 {
+    hw_int_disable();
     nrf_powerdown();
-    delay_ms_r(500);
+    
     asm goto USER_APP_ENTRY_POINT;
 }
 
@@ -91,26 +98,17 @@ uint8 check_rf_input()
     if (! nrf_rx_packet_ready()) return 0;
 
     // get packet
-    while (nrf_rx_packet_ready())
-    {
-        nrf_rx_read_packet(CFG_PAYLOAD_SIZE, buffer);
-
-        if (parse_packet(buffer))
-        {
-            execute_packet();
-        }
-        else
-        {
-            debug_print("packet skipped");
-        }
-    }
-
+    nrf_rx_read_packet(CFG_PAYLOAD_SIZE, buffer);
     nrf_clear_interrupts(NRFCFG_RX_INTERRUPT);
+
+    parse_packet(buffer);
+    execute_packet();
+
     nrf_rx_start_listening();
     return 1;
 }
 
-t_bool parse_packet(uint8 * buffer)
+void parse_packet(uint8 * buffer)
 {
     uint8 i;
 
@@ -121,27 +119,8 @@ t_bool parse_packet(uint8 * buffer)
     Hi      (in_packet.address) = buffer[3];
     Lo      (in_packet.address) = buffer[4];
 
-    Highest (in_packet.id) =      buffer[5];
-    Higher  (in_packet.id) =      buffer[6];
-    Hi      (in_packet.id) =      buffer[7];
-    Lo      (in_packet.id) =      buffer[8];
-    
     for (i = 0; i < DATA_BYTES_PER_PACKET; i ++)
         in_packet.data_bytes[i] = buffer[FIRST_DATA_BYTE_INDEX + i];
-        
-    #if DEBUG
-    debug_sprinti_1("got %i", (int)in_packet.command);
-    #endif
-    
-    if (in_packet.id == last_packet_id)
-    {
-        return FALSE;
-    }
-    else
-    {
-        last_packet_id = in_packet.id;
-        return TRUE;
-    }
 }
 
 void execute_packet()
@@ -164,10 +143,6 @@ void execute_packet()
             protocolcmd_clear_buffer();
             break;
             
-        case cmd_checksum:
-            protocolcmd_checksum();
-            break;
-            
         case cmd_reboot:
             asm RESET;
             break;
@@ -176,7 +151,6 @@ void execute_packet()
             exit_bootloader();
             break;
     }
-    debug_print("done");
 }
 
 void protocolcmd_clear_buffer()
@@ -195,7 +169,6 @@ void protocolcmd_write_buffer()
 
 void protocolcmd_write_flash()
 {
-    int i;
     if (in_packet.address < USER_APP_ENTRY_POINT ||
         in_packet.address + FLASH_WRITE_BLOCK_SIZE - 1 >= LAST_USEFUL_FLASH_PAGE_FIRST_ADDRESS)
     {
@@ -206,36 +179,14 @@ void protocolcmd_write_flash()
     flash_buffer_index = 0;
 }
 
-void protocolcmd_checksum()
-{
-    debug_sprinti_1("Checksum: %i", (int)calculate_checksum());
-}
-
-uint8 calculate_checksum()
-{
-    uint8 current;
-    uint32 i;
-    
-    current = 0;
-    
-    for (i = USER_APP_ENTRY_POINT; i <= LAST_USEFUL_FLASH_ADDRESS; i ++)
-    {
-        current = current ^ FLASH_Read(i);
-    }
-    
-    return current;
-}
-
 void protocolcmd_erase_flash()
 {
     #if FLASH_ERASE_BLOCK_SIZE != 1024
      #error "wrong flash erase block size"
     #endif
 
-    long addr = USER_APP_ENTRY_POINT;
-    
-    debug_print("erasing flash");
-    
+    unsigned long addr = USER_APP_ENTRY_POINT;
+
     while (addr < LAST_USEFUL_FLASH_PAGE_FIRST_ADDRESS)
     {
         FLASH_Erase_1024(addr);
@@ -246,20 +197,19 @@ void protocolcmd_erase_flash()
 void init()
 {
     hw_init();
-    debug_uart_init();
-    delay_ms_r(1500);
-    
-    debug_print("LOAD");
+    tab_init();
+
+    tab_display_msg("LOAD", 4);
 
     if (! main_nrf_init())
     {
-        debug_print("E 01");
+        tab_display_msg("E 01", 4);
         delay_ms_r(ERROR_SHOW_TIME);
     }
-
+    
+    hw_int_enable();
     flash_buffer_index = 0;
-    last_packet_id = 0;
-
+    
     if (! ANCON1.B0)
     {
         for (flash_buffer_index = 0; flash_buffer_index < 10; flash_buffer_index ++)

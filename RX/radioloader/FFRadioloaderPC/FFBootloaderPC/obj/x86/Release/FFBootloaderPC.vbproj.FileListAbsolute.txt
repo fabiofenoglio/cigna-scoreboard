@@ -1,0 +1,30 @@
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\bin\Release\FFBootloaderPC.exe.manifest
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\bin\Release\FFBootloaderPC.application
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\bin\Release\FFBootloaderPC.exe
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\bin\Release\FFBootloaderPC.pdb
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\bin\Release\FFBootloaderPC.xml
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\bin\Release\HidLibrary.dll
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\bin\Release\HidLibrary.pdb
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloader.Form1.resources
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloader.Resources.resources
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloaderPC.vbproj.GenerateResource.Cache
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloaderPC.exe.manifest
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloaderPC.application
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloaderPC.exe
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloaderPC.xml
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloaderPC.pdb
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloaderPC.exe
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloaderPC.xml
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloaderPC.pdb
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\bin\Release\FFBootloaderPC.exe.manifest
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\bin\Release\FFBootloaderPC.application
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\bin\Release\FFBootloaderPC.exe
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\bin\Release\FFBootloaderPC.pdb
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\bin\Release\FFBootloaderPC.xml
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\bin\Release\HidLibrary.dll
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\bin\Release\HidLibrary.pdb
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloader.Form1.resources
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloader.Resources.resources
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloaderPC.vbproj.GenerateResource.Cache
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloaderPC.exe.manifest
+D:\Git\cigna-scoreboard\RX\radioloader\FFRadioloaderPC\FFBootloaderPC\obj\x86\Release\FFBootloaderPC.application

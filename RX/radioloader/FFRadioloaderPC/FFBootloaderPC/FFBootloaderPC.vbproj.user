@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PublishUrlHistory>ftp://swapf.altervista.org/apps/depl/ffbootloader/|http://swapf.altervista.org/apps/depl/ffbootloader/|http://swapf.altervista.org/|publish\</PublishUrlHistory>
+    <InstallUrlHistory>http://swapf.altervista.org/apps/depl/ffbootloader/</InstallUrlHistory>
+    <SupportUrlHistory />
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>it-IT</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+</Project>

@@ -10,7 +10,7 @@
 /* nrf24l01+ configuration */
 
 // Payload size, defined from application
-#define CFG_PAYLOAD_SIZE         25
+#define CFG_PAYLOAD_SIZE         21
 
 /* Transmission power. Possible values are
  *

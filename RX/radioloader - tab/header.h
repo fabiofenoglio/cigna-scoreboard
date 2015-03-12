@@ -7,15 +7,14 @@
 
 #include "common_pic18.h"             // Configurazione comune alla serie 18F
 #include "hardware.h"                 // Configurazione hardware
+#include "nrf_cfg.h"                  // configurazione del modulo radio NRF24L01P
+#include "f_nrf24l01p.h"              // libreria di gestione del modulo radio NRF24L01P
+#include "tabInterface.h"             // routine di interfacciamento con il tabellone
+#include "protocol.h"
 
 #if DEBUG
     #include "debug.h"
 #endif
-
-#include "nrf_cfg.h"                  // configurazione del modulo radio NRF24L01P
-#include "f_nrf24l01p.h"              // libreria di gestione del modulo radio NRF24L01P
-#include "protocol.h"
-
 
 /* Validation =============================================================== */
 #if BYTES_PER_PACKET != CFG_PAYLOAD_SIZE

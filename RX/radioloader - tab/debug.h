@@ -10,7 +10,7 @@
   
   void debug_uart_init()
   {
-      Soft_UART_Init(___DEBUG_PORT, ___DEBUG_PIN_RX, ___DEBUG_PIN_TX, ___DEBUG_BAUDRATE, 0);
+      Soft_UART_Init(&PORTB, 6, 7, 9600, 0);
   }
 
   void debug_uart_send_text(char* text)

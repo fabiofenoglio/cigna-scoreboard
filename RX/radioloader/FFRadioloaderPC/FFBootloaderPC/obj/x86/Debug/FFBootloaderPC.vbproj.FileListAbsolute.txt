@@ -1,0 +1,11 @@
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\obj\x86\Debug\FFBootloader.Resources.resources
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\obj\x86\Debug\FFBootloaderPC.vbproj.GenerateResource.Cache
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\obj\x86\Debug\FFBootloader.Form1.resources
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\bin\Debug\FFBootloaderPC.exe
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\bin\Debug\FFBootloaderPC.pdb
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\bin\Debug\FFBootloaderPC.xml
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\bin\Debug\HidLibrary.dll
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\bin\Debug\HidLibrary.pdb
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\obj\x86\Debug\FFBootloaderPC.exe
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\obj\x86\Debug\FFBootloaderPC.xml
+D:\Elettronica\Progetti\Bootloader\custom f\FFBootloaderPC\FFBootloaderPC\obj\x86\Debug\FFBootloaderPC.pdb

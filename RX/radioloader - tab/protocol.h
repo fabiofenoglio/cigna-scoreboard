@@ -1,23 +1,22 @@
 #ifndef _inclguard_protocl_h
 #define _inclguard_protocl_h
 
-#define HOOK_TIME 5000
+#define HOOK_TIME 1000
 #define ERROR_SHOW_TIME 5000
 
-#define BYTES_BEFORE_DATA 9
+#define BYTES_BEFORE_DATA 5
 #define DATA_BYTES_PER_PACKET 16
 #define BYTES_PER_PACKET (DATA_BYTES_PER_PACKET + BYTES_BEFORE_DATA)
 #define FIRST_DATA_BYTE_INDEX BYTES_BEFORE_DATA
 
-#define USER_APP_ENTRY_POINT 0x2C00
+#define USER_APP_ENTRY_POINT 0x1C00
 #define LAST_USEFUL_FLASH_ADDRESS 0x1FFF7
-// Config bits start at 1FFF8h
 #define LAST_USEFUL_FLASH_PAGE_FIRST_ADDRESS 0x1FC00
 #define FLASH_ERASE_BLOCK_SIZE 1024
 #define FLASH_WRITE_BLOCK_SIZE 64
 
 #define CHUNK_1_SIZE 65535
-#define CHUNK_2_SIZE 0xD3F9
+#define CHUNK_2_SIZE 57345
 #define CHUNK_1_ADDRESS (USER_APP_ENTRY_POINT)
 #define CHUNK_2_ADDRESS (CHUNK_1_ADDRESS + (CHUNK_1_SIZE))
 
@@ -31,15 +30,13 @@ const code byte MEMORY_CHUNK_2[CHUNK_2_SIZE] = {0} absolute CHUNK_2_ADDRESS;
 /* Packet format:
  * 0       cmd (1 byte)
  * 1 - 4   memory address (4 bytes)
- * 5 - 8   packet id (4 bytes)
- * 9 - 24 data (16 bytes)
+ * 5 - 20 data (16 bytes)
  * bit order is MSB - LSB
 */
 typedef struct
 {
     uint8 command;
     uint32 address;
-    uint32 id;
 
     byte data_bytes [DATA_BYTES_PER_PACKET];
 
@@ -50,21 +47,18 @@ const uint8 cmd_write_buffer =   0x01;
 const uint8 cmd_clear_buffer =   0x02;
 const uint8 cmd_write_flash =    0x03;
 const uint8 cmd_erase_flash =    0x04;
-const uint8 cmd_checksum =       0x05;
 const uint8 cmd_reboot =         0x10;
 const uint8 cmd_start_user_app = 0x11;
 
-t_bool parse_packet(uint8 * buffer);
+void parse_packet(uint8 * buffer);
 void execute_packet();
 
 void protocolcmd_write_buffer();
 void protocolcmd_clear_buffer();
 void protocolcmd_erase_flash();
 void protocolcmd_write_flash();
-void protocolcmd_checksum();
 
 byte flash_write_buffer[FLASH_WRITE_BLOCK_SIZE];
-byte flash_read_buffer [FLASH_WRITE_BLOCK_SIZE];
-packet in_packet = {cmd_none, 0, 0, 0};
+packet in_packet = {cmd_none, 0, 0};
 
 #endif // #ifndef _inclguard_protocl_h
